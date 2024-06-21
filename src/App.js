@@ -6,12 +6,9 @@ import Layout from './components/layout/Layout';
 import Form from './components/form/Form';
 import Table from './components/table/Table';
 import Home from './components/home/home';
-
-
+import "./App.css"
 
 function App() {
-
-
 
   return (
     <Provider store={Store}>

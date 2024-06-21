@@ -1,8 +1,12 @@
+
 .table
 {
-    width: 100%;
-    padding-left: 10px;
-    overflow-x: scroll;
+    /* width: 100%; */
+    /* padding-left: 10px; */
+    /* overflow-x: scroll; */
+    margin-top: 25px;
+    overflow:auto;
+    scrollbar-width:none
 }
 table{
     color: white;
@@ -14,7 +18,7 @@ table{
 }
 th
 {
-    width: auto;
+    /* width: auto; */
     box-shadow: 1px 1px 1px 1px blue;
 }
 
@@ -26,7 +30,7 @@ td{
     box-shadow: 1px 1px 1px 1px blue;
     border-color: white;
     height: 30px;
-    width:fit-content;
+    /* width:fit-content; */
 }
 
 
