@@ -1,0 +1,89 @@
+.head
+{
+    align-self: center;
+    width: 100%;
+}
+ .head1
+{
+    font-weight: 500;
+    font-size: larger;
+    margin-top: 30px;
+    text-align: center;
+}
+.head2
+{
+    font-weight: 700;
+    font-size: xx-large;
+    margin-top: 10px;
+    text-align: center;
+} 
+a.title
+{
+    color: #6B93F8;
+}
+span.lead
+{
+    color:#1E275F;
+}
+.body
+{
+    padding-top: 10pxpx;
+    width: 100%;
+    display: flex;
+}
+.body1
+{
+    height: 400px;
+    width: 50%;
+    background-color: transparent;
+}
+.body1 img{
+    width: 90%;
+    height: 85%;
+    border-radius: 20px;
+    padding: 20px;
+    float: right;
+}
+
+.body2{
+    height: auto;
+    width: 50%;
+}
+.body2 p
+{
+    color: white;
+    width: 80%;
+    height: auto;
+    font-size: larger;
+    padding-left: 10px;
+    text-align: justify;
+    text-overflow: clip;
+}
+.ceobanner
+{
+    padding:0px ;
+    display: flex;
+    align-items: center;
+}
+.ceobanner img
+{
+    height:100px;
+    width:80px;
+    padding-right: 10px;
+}
+.ceodis
+{
+    width: 100%;
+}
+.ceodis a
+{
+    color: white;
+    font-size:small;
+    font-weight: 600;
+}
+.ceodis p{
+    font-size: small;
+    font-weight: 400;
+    padding:0px ;
+    margin: 0px;
+}

@@ -1,0 +1,32 @@
+.table
+{
+    width: 100%;
+    padding-left: 10px;
+    overflow-x: scroll;
+}
+table{
+    color: white;
+    box-shadow: 1px 1px 1px 1px blue;
+    text-align: center;
+    border-color: white;
+    border-radius: 12px;
+    
+}
+th
+{
+    width: auto;
+    box-shadow: 1px 1px 1px 1px blue;
+}
+
+tr{
+    box-shadow: 1px 1px 1px 1px ;
+    border-color: white;
+}
+td{
+    box-shadow: 1px 1px 1px 1px blue;
+    border-color: white;
+    height: 30px;
+    width:fit-content;
+}
+
+

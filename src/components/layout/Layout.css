@@ -1,0 +1,85 @@
+.main {
+    background-color: #242220;
+    display: flex;
+}
+
+.tabs {
+    box-shadow: 1px 1px 1px 1px #fff;
+    height: 30px;
+    width: auto;
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    margin-left: 10px;
+}
+
+.activetab {
+    box-shadow: 2px 2px 2px 2px blue;
+    height: 30px;
+    width: auto;
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    margin-left: 10px;
+}
+
+button.tabs {
+    margin: auto;
+}
+
+span.tabs {
+    flex: 1;
+    height: 100%;
+    margin: 0px;
+}
+
+span.tabs:hover {
+    color: white;
+    transition: 0s;
+    cursor: pointer;
+}
+
+.sidebar {
+    overflow: hidden;
+    height: 100vh;
+    width: 150px;
+    background-color: #302c28;
+    float: left;
+    transition: 1s;
+}
+
+span.menu {
+    text-align: center;
+    font-size: x-large;
+}
+
+span.menu:hover {
+    cursor: pointer;
+    transition: 2s;
+}
+
+button.menu {
+    height: auto;
+    width: 100%;
+    font-size: x-large;
+    color: white;
+    background-color: transparent;
+}
+
+.content {
+    flex-grow: 1;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.header {
+    height: 50px;
+    width: 100%;
+    font-size: x-large;
+    background-color: #2e2d2d;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+}
