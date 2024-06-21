@@ -64,7 +64,7 @@ function Table() {
 
   return (
     <div>
-      <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
+      {/* <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
       <Modal isOpen={isFilterPopupOpen} onClose={() => setIsFilterPopupOpen(false)}>
         <div className="filter-popup-content">
           {filters.map((filter, index) => (
@@ -90,7 +90,7 @@ function Table() {
           <button onClick={handleAddFilter}>Add Filter</button>
           <button onClick={handleApplyFilters}>Apply Filters</button>
         </div>
-      </Modal>
+      </Modal> */}
       <div className="table">
         <table>
           <thead>
