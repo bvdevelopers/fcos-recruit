@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Modal from './Model';
+import Modal from './Modal'; // Corrected the import
 import './table.css';
 
 function Table() {
@@ -37,9 +37,11 @@ function Table() {
   const handleApplyFilters = () => {
     let filteredData = candidates;
     filters.forEach(filter => {
-      filteredData = filteredData.filter(candidate =>
-        candidate[filter.column].toString().includes(filter.value)
-      );
+      if (filter.column && filter.value) {
+        filteredData = filteredData.filter(candidate =>
+          candidate[filter.column].toString().toLowerCase().includes(filter.value.toLowerCase())
+        );
+      }
     });
     setFilteredCandidates(filteredData);
     setIsFilterPopupOpen(false);
@@ -64,7 +66,7 @@ function Table() {
 
   return (
     <div>
-      {/* <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
+      <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
       <Modal isOpen={isFilterPopupOpen} onClose={() => setIsFilterPopupOpen(false)}>
         <div className="filter-popup-content">
           {filters.map((filter, index) => (
@@ -75,7 +77,7 @@ function Table() {
               >
                 <option value="">Select Column</option>
                 {availableColumns.map(column => (
-                  !filters.some(f => f.column === column) && <option key={column} value={column}>{column}</option>
+                  <option key={column} value={column}>{column}</option>
                 ))}
               </select>
               <input
@@ -90,7 +92,7 @@ function Table() {
           <button onClick={handleAddFilter}>Add Filter</button>
           <button onClick={handleApplyFilters}>Apply Filters</button>
         </div>
-      </Modal> */}
+      </Modal>
       <div className="table">
         <table>
           <thead>
