@@ -10,6 +10,8 @@ function Table() {
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState([]);
   const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 8; // Number of rows per page
 
   useEffect(() => {
     axios.get('https://fcos-recruitment.000webhostapp.com/api/index.php') // Ensure this is the correct API endpoint
@@ -45,6 +47,7 @@ function Table() {
     });
     setFilteredCandidates(filteredData);
     setIsFilterPopupOpen(false);
+    setCurrentPage(1); // Reset to first page when filters are applied
   };
 
   const handleRemoveFilter = (index) => {
@@ -55,6 +58,22 @@ function Table() {
   const availableColumns = [
     'category', 'candidateName', 'dob', 'age', 'gender', 'contactPhoneNo', 'contactEmailId', 'address', 'city', 'district', 'state', 'aadharNumber', 'qualification', 'currentCompanyName', 'experience', 'expectingJob', 'currentSalary', 'expectingSalary', 'accommodation', 'food', 'placed', 'biodataReceivedDate', 'status', 'proposedCompanyNameJoinedOrPlaced', 'dateOfJoined', 'lastUpdateDate', 'remarks', 'epfNumber', 'esiNumber'
   ];
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentRows = filteredCandidates.slice(indexOfFirstRow, indexOfLastRow);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prevPage => prevPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(filteredCandidates.length / rowsPerPage)) {
+      setCurrentPage(prevPage => prevPage + 1);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -97,7 +116,7 @@ function Table() {
         <table>
           <thead>
             <tr>
-              <th>S.No</th>
+              <th style={{borderRadius:"12px 0px 0px 0px"}}>S.No</th>
               <th>Category</th>
               <th>Candidate Name</th>
               <th>Date of Birth</th>
@@ -130,10 +149,10 @@ function Table() {
             </tr>
           </thead>
           <tbody>
-            {filteredCandidates.length > 0 ? (
-              filteredCandidates.map((candidate, index) => (
+            {currentRows.length > 0 ? (
+              currentRows.map((candidate, index) => (
                 <tr key={candidate.sNo}>
-                  <td>{index + 1}</td>
+                  <td>{indexOfFirstRow + index + 1}</td>
                   <td>{candidate.category}</td>
                   <td>{candidate.candidateName}</td>
                   <td>{candidate.dob}</td>
@@ -172,6 +191,11 @@ function Table() {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
+        <span>Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</span>
+        <button onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</button>
       </div>
     </div>
   );

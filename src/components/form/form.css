@@ -15,9 +15,10 @@
   .form {
     width: 100%;
     /* max-width: 800px;  */
-    color: bisque;
+    color: gray;
     box-shadow: 5px 2px 8px 5px #2e2d2d;
-    background-color: #1c1b1b;
+    /* background-color: #1c1b1b; */
+    background-color: white;
     padding: 20px;
     border-radius: 12px;
     box-sizing: border-box;
@@ -42,15 +43,18 @@
     
      /* Each section takes 50% width */
     padding: 20px;
+    background-color: white;
 
   }
 
   fieldset {
+    box-shadow: 5px 2px 8px 5px gray;
     width: 100%;
     border: 1px solid #444;
     border-radius: 12px;
     margin-bottom: 20px;
     padding: 20px;
+    background-color: #faeedc;
     
   }
 
@@ -64,13 +68,15 @@
 
   
   legend {
-    color: bisque;
+    font-weight: bolder;
+    color: red;
     font-size: larger;
     padding: 0 10px;
   }
   
   label {
-    color: bisque;
+    font-weight: 1000;
+    color: black;
     font-size: medium;
     margin-bottom: 5px;
     display: block;
@@ -92,7 +98,7 @@
   input[type="date"],
   textarea,
   select {
-    background-color: #2e2d2d;
+    background-color: gray;
     color: white;
     width: 100%;
     height: 30px;
@@ -111,7 +117,13 @@
     opacity:0.8;
 }
 input[type="radio"] {
-    margin-right: 10px;
+  height: 16px;
+  width: 16px;
+  border: 2px solid wheat;
+  border-radius: 50%;
+  margin-right: 15px;
+  margin-left: 10px;
+  outline: none;
   }
   
   textarea {

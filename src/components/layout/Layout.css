@@ -1,5 +1,6 @@
 .main {
-    /* background-color: #242220; */
+    background-color:white;
+    min-width: ;
     /* display: flex; */
 }
 
@@ -23,6 +24,7 @@
     overflow: hidden;
     padding-bottom: 2px;
     margin-left: 10px;
+    background-color: #1A3B8C;
 }
 
 button.tabs {
@@ -33,10 +35,11 @@ span.tabs {
     flex: 1;
     height: 100%;
     margin: 0px;
+    color: #FFFFFF;
 }
 
 span.tabs:hover {
-    color: white;
+    color: #F47B20;
     transition: 0s;
     cursor: pointer;
 }
@@ -47,7 +50,7 @@ span.tabs:hover {
     width: 150px; */
     width: 0px;
     margin-left: -100px;
-    background-color: #302c28;
+    background-color: #1A3B8C;
     /* float: left; */
     transition: 1s;
 }
@@ -72,11 +75,17 @@ button.menu {
     color: white;
     background-color: transparent;
 }
+button.menu:hover
+{
+    color: #F47B20;
+
+}
 
 .content {
     flex-grow: 1;
     height: 100vh;
     overflow-y: auto;
+    background-color: #faeedc;
 }
 
 .header {
@@ -86,5 +95,6 @@ button.menu {
     background-color: #2e2d2d;
     display: flex;
     align-items: center;
+    background-color: #0A1D50;
     /* justify-content: center; */
 }

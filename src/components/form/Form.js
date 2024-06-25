@@ -57,12 +57,14 @@ function Form() {
                   <div className="gender">
                     <label>
                       Male
-                      <input type="radio" name="gender" value="male" onChange={handleChange} checked={formData.gender === 'male'} />
                     </label>
+                    <input type="radio" name="gender" value="male" onChange={handleChange} checked={formData.gender === 'male'} />
+
                     <label>
                       Female
-                      <input type="radio" name="gender" value="female" onChange={handleChange} checked={formData.gender === 'female'} />
                     </label>
+                    <input type="radio" name="gender" value="female" onChange={handleChange} checked={formData.gender === 'female'} />
+
                   </div>
                 </div>
                 <div className="form-row">
@@ -145,42 +147,43 @@ function Form() {
                 </div>
               </fieldset>
             </div>
-
-            <fieldset>
-              <legend>Others</legend>
-              <div className="form-row">
-                <label>Biodata Received Date:</label>
-                <input type="date" name="biodataReceivedDate" onChange={handleChange} value={formData.biodataReceivedDate || ''} />
-              </div>
-              <div className="form-row">
-                <label>Status:</label>
-                <input type="text" name="status" onChange={handleChange} value={formData.status || ''} />
-              </div>
-              <div className="form-row">
-                <label>Proposed Company Name - Joined/Placed:</label>
-                <input type="text" name="proposedCompanyNameJoinedOrPlaced" onChange={handleChange} value={formData.proposedCompanyNameJoinedOrPlaced || ''} />
-              </div>
-              <div className="form-row">
-                <label>Date of Joined:</label>
-                <input type="date" name="dateOfJoined" onChange={handleChange} value={formData.dateOfJoined || ''} />
-              </div>
-              <div className="form-row">
-                <label>Last Update Date:</label>
-                <input type="date" name="lastUpdateDate" onChange={handleChange} value={formData.lastUpdateDate || ''} />
-              </div>
-              <div className="form-row">
-                <label>Remarks:</label>
-                <textarea name="remarks" onChange={handleChange} value={formData.remarks || ''}></textarea>
-              </div>
-              <div className="form-row">
-                <label>EPF Number:</label>
-                <input type="text" name="epfNumber" onChange={handleChange} value={formData.epfNumber || ''} />
-              </div>
-              <div className="form-row">
-                <label>ESI Number:</label>
-                <input type="text" name="esiNumber" onChange={handleChange} value={formData.esiNumber || ''} />
-              </div>
-            </fieldset>
+            <div className="form-section">
+              <fieldset>
+                <legend>Others</legend>
+                <div className="form-row">
+                  <label>Biodata Received Date:</label>
+                  <input type="date" name="biodataReceivedDate" onChange={handleChange} value={formData.biodataReceivedDate || ''} />
+                </div>
+                <div className="form-row">
+                  <label>Status:</label>
+                  <input type="text" name="status" onChange={handleChange} value={formData.status || ''} />
+                </div>
+                <div className="form-row">
+                  <label>Proposed Company Name - Joined/Placed:</label>
+                  <input type="text" name="proposedCompanyNameJoinedOrPlaced" onChange={handleChange} value={formData.proposedCompanyNameJoinedOrPlaced || ''} />
+                </div>
+                <div className="form-row">
+                  <label>Date of Joined:</label>
+                  <input type="date" name="dateOfJoined" onChange={handleChange} value={formData.dateOfJoined || ''} />
+                </div>
+                <div className="form-row">
+                  <label>Last Update Date:</label>
+                  <input type="date" name="lastUpdateDate" onChange={handleChange} value={formData.lastUpdateDate || ''} />
+                </div>
+                <div className="form-row">
+                  <label>Remarks:</label>
+                  <textarea name="remarks" onChange={handleChange} value={formData.remarks || ''}></textarea>
+                </div>
+                <div className="form-row">
+                  <label>EPF Number:</label>
+                  <input type="text" name="epfNumber" onChange={handleChange} value={formData.epfNumber || ''} />
+                </div>
+                <div className="form-row">
+                  <label>ESI Number:</label>
+                  <input type="text" name="esiNumber" onChange={handleChange} value={formData.esiNumber || ''} />
+                </div>
+              </fieldset>
+            </div>
           </div>
 
           <button type="submit">Submit</button>

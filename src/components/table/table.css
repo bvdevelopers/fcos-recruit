@@ -1,36 +1,72 @@
 
-.table
-{
-    /* width: 100%; */
-    /* padding-left: 10px; */
-    /* overflow-x: scroll; */
-    margin-top: 25px;
-    overflow:auto;
-    scrollbar-width:none
-}
-table{
-    color: white;
-    box-shadow: 1px 1px 1px 1px blue;
-    text-align: center;
-    border-color: white;
-    border-radius: 12px;
+    .table
+    {
+        /* width: 100%; */
+        /* padding-left: 10px; */
+        /* overflow-x: scroll; */
+        margin-top: 25px;
+        overflow:auto;
+        scrollbar-width:none;
+        margin-right:30px;
+        margin-left: 30px;
+        border-radius: 12px;
+        height: 500px;
+        overflow-y: scroll;
+
+
+    }
+    table{
+        color: white;
+        box-shadow: 1px 1px 1px 1px blue;
+        text-align: center;
+        border-color: white;
+        border-radius: 12px;
+        background-color: navy;    
+    }
+    th
+    {
+        background-color: #1A3B8C;
+        color: #FFFFFF;
+        /* width: auto; */
+        box-shadow: 1px 1px 1px 1px #F47B20;
+    }
+
+    tr{
+        background-color: #FFFFFF;
+        color: #333333;
+        box-shadow: 1px 1px 1px 1px #F47B20;
+        border-color: white;
+    }
+    td{
+        box-shadow: 1px 1px 1px 1px #F47B20;
+        border-color: white;
+        height: 30px;
+        /* width:fit-content; */
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
     
-}
-th
-{
-    /* width: auto; */
-    box-shadow: 1px 1px 1px 1px blue;
-}
-
-tr{
-    box-shadow: 1px 1px 1px 1px ;
-    border-color: white;
-}
-td{
-    box-shadow: 1px 1px 1px 1px blue;
-    border-color: white;
-    height: 30px;
-    /* width:fit-content; */
-}
-
+    .pagination button {
+        margin: 0 5px;
+        padding: 5px 10px;
+        border: none;
+        background-color: #1A3B8C;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .pagination button:disabled {
+        background-color: grey;
+        cursor: not-allowed;
+    }
+    
+    .pagination span {
+        margin: 0 10px;
+    }
+    
+    
 
