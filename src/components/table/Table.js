@@ -121,6 +121,7 @@ function Table() {
 
   return (
     <div>
+      <br/><br/><br/>
       <div className='buttons'>
       <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
       <button onClick={handleDeleteSelected} disabled={selectedCandidates.length === 0}>Delete</button>
@@ -172,7 +173,7 @@ function Table() {
               <th>S.No</th>
               <th>Category</th>
               <th>Candidate Name</th>
-              <th>Date of Birth</th>
+              {/* <th>Date of Birth</th> */}
               <th>Age</th>
               <th>Gender</th>
               <th>Phone Number</th>
@@ -181,24 +182,24 @@ function Table() {
               <th>City</th>
               <th>District</th>
               <th>State</th>
-              <th>Aadhar Number</th>
+              {/* <th>Aadhar Number</th> */}
               <th>Qualification</th>
-              <th>Current Company</th>
+              {/* <th>Current Company</th> */}
               <th>Experience</th>
-              <th>Expecting Job</th>
+              {/* <th>Expecting Job</th> */}
               <th>Current Salary</th>
               <th>Expecting Salary</th>
-              <th>Accommodation</th>
-              <th>Food</th>
-              <th>Placed</th>
-              <th>Biodata Received Date</th>
+              {/* <th>Accommodation</th> */}
+              {/* <th>Food</th> */}
+              {/* <th>Placed</th> */}
+              {/* <th>Biodata Received Date</th> */}
               <th>Status</th>
-              <th>Proposed Company (Joined/Placed)</th>
-              <th>Date of Joined</th>
-              <th>Last Update Date</th>
-              <th>Remarks</th>
-              <th>EPF Number</th>
-              <th>ESI Number</th>
+              {/* <th>Proposed Company (Joined/Placed)</th> */}
+              {/* <th>Date of Joined</th> */}
+              {/* <th>Last Update Date</th> */}
+              {/* <th>Remarks</th> */}
+              {/* <th>EPF Number</th> */}
+              {/* <th>ESI Number</th> */}
             </tr>
           </thead>
           <tbody>
@@ -215,7 +216,7 @@ function Table() {
                   <td>{indexOfFirstRow + index + 1}</td>
                   <td>{candidate.category}</td>
                   <td>{candidate.candidateName}</td>
-                  <td>{candidate.dob}</td>
+                  {/* <td>{candidate.dob}</td> */}
                   <td>{candidate.age}</td>
                   <td>{candidate.gender}</td>
                   <td>{candidate.contactPhoneNo}</td>
@@ -224,24 +225,24 @@ function Table() {
                   <td>{candidate.city}</td>
                   <td>{candidate.district}</td>
                   <td>{candidate.state}</td>
-                  <td>{candidate.aadharNumber}</td>
+                  {/* <td>{candidate.aadharNumber}</td> */}
                   <td>{candidate.qualification}</td>
-                  <td>{candidate.currentCompanyName}</td>
+                  {/* <td>{candidate.currentCompanyName}</td> */}
                   <td>{candidate.experience}</td>
-                  <td>{candidate.expectingJob}</td>
+                  {/* <td>{candidate.expectingJob}</td> */}
                   <td>{candidate.currentSalary}</td>
                   <td>{candidate.expectingSalary}</td>
-                  <td>{candidate.accommodation}</td>
-                  <td>{candidate.food}</td>
-                  <td>{candidate.placed}</td>
-                  <td>{candidate.biodataReceivedDate}</td>
+                  {/* <td>{candidate.accommodation}</td> */}
+                  {/* <td>{candidate.food}</td> */}
+                  {/* <td>{candidate.placed}</td> */}
+                  {/* <td>{candidate.biodataReceivedDate}</td> */}
                   <td>{candidate.status}</td>
-                  <td>{candidate.proposedCompanyNameJoinedOrPlaced}</td>
-                  <td>{candidate.dateOfJoined}</td>
-                  <td>{candidate.lastUpdateDate}</td>
-                  <td>{candidate.remarks}</td>
-                  <td>{candidate.epfNumber}</td>
-                  <td>{candidate.esiNumber}</td>
+                  {/* <td>{candidate.proposedCompanyNameJoinedOrPlaced}</td> */}
+                  {/* <td>{candidate.dateOfJoined}</td> */}
+                  {/* <td>{candidate.lastUpdateDate}</td> */}
+                  {/* <td>{candidate.remarks}</td> */}
+                  {/* <td>{candidate.epfNumber}</td> */}
+                  {/* <td>{candidate.esiNumber}</td> */}
                 </tr>
               ))
             ) : (
