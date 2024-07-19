@@ -1,9 +1,10 @@
 .home
 {
-    display: flex;
+    display:flex;
+    flex-wrap: wrap;
 }
 
-.total
+.stat
 {
     align-content: center;
     vertical-align: middle;
@@ -16,14 +17,3 @@
     margin: 20px;
 }
 
-.gender
-{
-    align-content: center;
-    vertical-align: middle;
-    align-items: center;
-    border: 10px;
-    box-shadow: 10px 10px 10px 10px ;
-    border-radius: 12px;
-    height: 100px;
-    width: 100px;
-}

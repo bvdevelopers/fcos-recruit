@@ -1,45 +1,180 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './form.css';
 import { updateForm } from '../../redux/formSlice';
 import axios from 'axios';
+import  Notification  from '../notification/Notification';
 
 function Form() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.form[id] || {});
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notification, setNotification] = useState({ message: '', type: '' });
 
-  const handleChange = (e) => {
+
+  useEffect(() => {
+    // navigate("home");
+  }, [navigate]);
+
+  const handleChange =  (e) => {
     const { name, value } = e.target;
+    // Ensure the Aadhar number is exactly 12 digits
+    if (name === 'aadharNumber' && value.length > 12) {
+      return;
+    }
+
+    // Ensure only numeric input for Aadhar number
+    if (name === 'aadharNumber' && !/^\d*$/.test(value)) {
+      return;
+    }
+    // Ensure the phno is exactly 10 digits
+    if (name === 'contactPhoneNo' && value.length > 10) {
+      return;
+    }
+
+    // Ensure only numeric input for Aadhar number
+    if (name === 'contactPhoneNo' && !/^\d*$/.test(value)) {
+      return;
+    }
+    if (name === 'pincode' && value.length === 6) {
+      const pincode = value;
+      const url = `https://fcos-recruitment.000webhostapp.com/api/pincode.php?pincode=${pincode}`;
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Data successfully retrieved from the server:', data);
+        // Update form data with city, state, district
+        // setFormData(prev => ({ ...prev, city: data.city, state: data.state, district: data.district }));
+        setIsSubmitting(false);
+      })
+      .catch(error => {
+        console.error('Error retrieving data from the server:', error);
+        setIsSubmitting(false);
+      });
+    } else {
+      console.error('Invalid pincode');
+      setIsSubmitting(false);
+    }
+    
+    
+    
+    
+
+
+    let updatedData = { [name]: value };
+
+    if (name === 'dob') {
+      const age = calculateAge(value);
+      updatedData = { ...updatedData, age };
+      dispatch(updateForm({ id, pass: updatedData }));
+    }
     dispatch(updateForm({ id, pass: { [name]: value } }));
+  };
+
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return Math.round(age);
   };
 
 
   const handleSubmit = (e) => {
+
+
     e.preventDefault();
-    axios.post('https://fcos-recruitment.000webhostapp.com/api/insert_api.php', formData)
+    if (isSubmitting) return; // Prevent multiple submissions
+
+    setIsSubmitting(true);
+
+    console.log("Submitting form data:", formData);
+
+    axios.post('https://fcos-recruitment.000webhostapp.com/api/insert_api.php', formData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then(response => {
+        if(response.message === 'Data inserted successfully')
+          {
         console.log('Data successfully sent to the server:', response);
-        alert('Submitted');
+        setNotification({ message: 'Form submitted successfully!', type: 'success' });
+          }
+          else
+          {
+            setNotification({ message: response.message, type: 'error' });
+          }
+        // alert('Submitted');
+        setIsSubmitting(false);
       })
       .catch(error => {
+        setNotification({ message: "There was an error sending the data!", type: 'error' });
+
         console.error('There was an error sending the data!', error);
+        console.error('Error details:', {
+          message: error.message,
+          name: error.name,
+          code: error.code,
+          config: error.config,
+          request: error.request,
+          response: error.response,
+        });
+        setIsSubmitting(false);
       });
   };
+  const closeNotification = () => {
+    setNotification({ message: '', type: '' });
+  };
+
 
   return (
     <div className="formmain">
       <div className="form">
-        <form onSubmit={handleSubmit}>
+      <Notification message={notification.message} type={notification.type} onClose={closeNotification} />
+      <form onSubmit={handleSubmit}>
           <div className="pair">
             <div className="form-section">
               <fieldset>
                 <legend>Personal Information</legend>
                 <div className="form-row">
-                  <label>Category:</label>
-                  <input type="text" name="category" onChange={handleChange} value={formData.category || ''} />
+                  <label>Category: *</label>
+                  <select name="category" onChange={handleChange} value={formData.category || ''} required>
+                    <option value="">-select-</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Security guard">Security guard</option>
+                    <option value="Unskilled">Unskilled</option>
+                    <option value="Skilled">Skilled</option>
+                    <option value="Semiskilled">Semiskilled</option>
+                    <option value="ex-service">Ex-Service</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Operator">Operator</option>
+                    <option value="Housekeeper">Housekeeper</option>
+                    <option value="Scavenger">Scavenger</option>
+                    <option value="Lady guard">Lady guard</option>
+                  </select>
                 </div>
+
                 <div className="form-row">
                   <label>Candidate Name:</label>
                   <input type="text" name="candidateName" onChange={handleChange} value={formData.candidateName || ''} />
@@ -54,23 +189,82 @@ function Form() {
                 </div>
                 <div className="form-row">
                   <label>Gender:</label>
-                  <div className="gender">
+                  <div className="gender">                   
                     <label>
                       Male
                     </label>
                     <input type="radio" name="gender" value="male" onChange={handleChange} checked={formData.gender === 'male'} />
-
                     <label>
                       Female
                     </label>
                     <input type="radio" name="gender" value="female" onChange={handleChange} checked={formData.gender === 'female'} />
+                    <label>
+                      Transgender
+                    </label>
+                    <input type="radio" name="gender" value="transgender" onChange={handleChange} checked={formData.gender === 'transgender'} />
 
                   </div>
                 </div>
                 <div className="form-row">
                   <label>Aadhar Number:</label>
-                  <input type="text" name="aadharNumber" onChange={handleChange} value={formData.aadharNumber || ''} />
+                  <input type="text" inputMode='numeric' pattern="\d{12}" maxLength="12" minLength="12" name="aadharNumber" onChange={handleChange} value={formData.aadharNumber || ''} />
                 </div>
+                <div className="form-row">
+                  <label>Marital Status:</label>
+                  <select name="maritalstatus" onChange={handleChange} value={formData.maritalstatus || ''}>
+                    <option value="">-select-</option>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widowed">Widowed</option>
+                    <option value="divorced">Divorced</option>
+                    <option value="separated">Separated</option>
+                    <option value="registered partnership">Registered Partnership</option>
+                  </select>
+                </div>
+                <div className="form-row">
+                  <label>Account Number:</label>
+                  <input type="text" name="accountnumber" onChange={handleChange} value={formData.accountnumber || ''} />
+                </div>
+                <div className="form-row">
+                <label>IFSC code:</label>
+                  <input type="text" name="ifsccode"   onChange={handleChange} value={formData.ifsccode || ''} />
+                  <label>Branch:</label>
+                  <input type="text" name="branch" onChange={handleChange} value={formData.branch || ''} />
+                 </div>
+
+                 <div className="form-row">
+                  <label>shirt Size:</label>
+                  <select name="shirtsize" onChange={handleChange} value={formData.shirtsize || ''}>
+                    <option value="">-select-</option>
+                    <option value="36">36</option>
+                    <option value="38">38</option>
+                    <option value="40">40</option>
+                    <option value="42">42</option>
+                    <option value="44">44</option>
+                    <option value="46">46</option>
+                  </select>
+                  <label>pant Size:</label>
+
+                  <select name="pantsize" onChange={handleChange} value={formData.pantsize || ''}>
+                    <option value="">-select-</option>
+                    <option value="36">32</option>
+                    <option value="34">34</option>
+                    <option value="36">36</option>
+                    <option value="38">38</option>
+                    <option value="40">40</option>
+                    <option value="42">42</option>
+                  </select>
+                  <label>Shoe Size:</label>
+
+                  <select name="shoesize" onChange={handleChange} value={formData.shoesize || ''}>
+                    <option value="">-select-</option>
+                    <option value="36">8</option>
+                    <option value="38">9</option>
+                    <option value="40">10</option>
+                    <option value="42">12</option>
+                  </select>
+                </div>
+               
               </fieldset>
             </div>
 
@@ -79,11 +273,19 @@ function Form() {
                 <legend>Communication</legend>
                 <div className="form-row">
                   <label>Phone Number:</label>
-                  <input type="text" name="contactPhoneNo" onChange={handleChange} value={formData.contactPhoneNo || ''} />
+                  <input type="text" name="contactPhoneNo" inputMode='numeric' pattern="\d{10}" maxLength="10" minLength="10" onChange={handleChange} value={formData.contactPhoneNo || ''} />
+                </div>
+                <div className="form-row">
+                  <label>Alternate Phone Number</label>
+                  <input type="text" name="alternateContactPhoneNo" inputMode='numeric' pattern="\d{10}" maxLength="10" minLength="10" onChange={handleChange} value={formData.alternateContactPhoneNo || ''} />
                 </div>
                 <div className="form-row">
                   <label>Email:</label>
                   <input type="email" name="contactEmailId" onChange={handleChange} value={formData.contactEmailId || ''} />
+                </div>
+                <div className="form-row">
+                  <label>Pin Code *:</label>
+                  <input type="text" inputMode='numeric' name="pincode" onChange={handleChange} value={formData.pincode || ''} required />
                 </div>
                 <div className="form-row">
                   <label>Address:</label>
@@ -98,8 +300,8 @@ function Form() {
                   </select>
                 </div>
                 <div className="form-row">
-                  <label>District:</label>
-                  <input type="text" name="district" onChange={handleChange} value={formData.district || ''} />
+                  <label>District: *</label>
+                  <input type="text" name="district" onChange={handleChange} value={formData.district || ''} required/>
                 </div>
                 <div className="form-row">
                   <label>State:</label>
@@ -114,24 +316,40 @@ function Form() {
               <fieldset>
                 <legend>Professional Information</legend>
                 <div className="form-row">
+                  <label>Qualification: *</label>
+                  <input type="text" name="qualification" onChange={handleChange} value={formData.qualification || ''} required/>
+                </div>
+                <div className="form-row">
                   <label>Current Company Name:</label>
                   <input type="text" name="currentCompanyName" onChange={handleChange} value={formData.currentCompanyName || ''} />
                 </div>
                 <div className="form-row">
-                  <label>Experience:</label>
-                  <input type="text" name="experience" onChange={handleChange} value={formData.experience || ''} />
-                </div>
+                  <label>Experience: *</label>
+                  <select name="experience" onChange={handleChange} value={formData.experience || ''} required>
+                    <option value="">-select-</option>
+                    <option value="0-1">0-1</option>
+                    <option value="1-2">1-2</option>
+                    <option value="2-3">2-3</option>
+                    <option value="3-4">3-4</option>
+                    <option value="4-5">4-5</option>
+                    <option value="5-6">5-6</option>
+                    <option value="6-7">6-7</option>
+                    <option value="7-8">7-8</option>
+                    <option value="8-9">8-9</option>
+                    <option value="9-10">9-10</option>
+
+                  </select>                </div>
                 <div className="form-row">
                   <label>Expecting Job:</label>
                   <input type="text" name="expectingJob" onChange={handleChange} value={formData.expectingJob || ''} />
                 </div>
                 <div className="form-row">
-                  <label>Current Salary:</label>
-                  <input type="number" name="currentSalary" onChange={handleChange} value={formData.currentSalary || ''} />
+                  <label>Current Salary: *</label>
+                  <input type="number" name="currentSalary" onChange={handleChange} value={formData.currentSalary || ''} required/>
                 </div>
                 <div className="form-row">
-                  <label>Expecting Salary:</label>
-                  <input type="number" name="expectingSalary" onChange={handleChange} value={formData.expectingSalary || ''} />
+                  <label>Expecting Salary: *</label>
+                  <input type="number" name="expectingSalary" onChange={handleChange} value={formData.expectingSalary || ''} required/>
                 </div>
                 <div className="form-row">
                   <label>Accommodation:</label>
@@ -140,10 +358,6 @@ function Form() {
                 <div className="form-row">
                   <label>Food:</label>
                   <input type="text" name="food" onChange={handleChange} value={formData.food || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Placed:</label>
-                  <input type="text" name="placed" onChange={handleChange} value={formData.placed || ''} />
                 </div>
               </fieldset>
             </div>
@@ -155,8 +369,14 @@ function Form() {
                   <input type="date" name="biodataReceivedDate" onChange={handleChange} value={formData.biodataReceivedDate || ''} />
                 </div>
                 <div className="form-row">
-                  <label>Status:</label>
-                  <input type="text" name="status" onChange={handleChange} value={formData.status || ''} />
+                  <label>Status: *</label>
+                  <select name="status" onChange={handleChange} value={formData.status || ''} required>
+                    <option value="">-select-</option>
+                    <option value="waiting">Waiting</option>
+                    <option value="placed">Placed</option>
+                    <option value="relieved">Relived</option>
+                    <option value="blocked">Blocked</option>
+                  </select>
                 </div>
                 <div className="form-row">
                   <label>Proposed Company Name - Joined/Placed:</label>
@@ -186,7 +406,7 @@ function Form() {
             </div>
           </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={isSubmitting}>Submit</button>
         </form>
       </div>
     </div>

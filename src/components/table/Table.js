@@ -9,6 +9,7 @@ function Table() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState([]);
+  const [selectedCandidates, setSelectedCandidates] = useState([]);
   const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 8; // Number of rows per page
@@ -38,12 +39,21 @@ function Table() {
 
   const handleApplyFilters = () => {
     let filteredData = candidates;
+    
     filters.forEach(filter => {
+      console.log(filter.column.age);
+      if (filter.column === 'age' && filter.value) {
+        filteredData = filteredData.filter(candidate =>
+          candidate[filter.column].toString().includes(filter.value.toString())
+        );
+      }
+      else
       if (filter.column && filter.value) {
         filteredData = filteredData.filter(candidate =>
           candidate[filter.column].toString().toLowerCase().includes(filter.value.toLowerCase())
         );
       }
+        
     });
     setFilteredCandidates(filteredData);
     setIsFilterPopupOpen(false);
@@ -53,6 +63,32 @@ function Table() {
   const handleRemoveFilter = (index) => {
     const newFilters = filters.filter((_, i) => i !== index);
     setFilters(newFilters);
+  };
+
+  const handleSelectCandidate = (sNo) => {
+    setSelectedCandidates(prevSelected => {
+      if (prevSelected.includes(sNo)) {
+        return prevSelected.filter(id => id !== sNo);
+      } else {
+        return [...prevSelected, sNo];
+      }
+    });
+  };
+
+  const handleDeleteSelected = () => {
+    axios.post('https://fcos-recruitment.000webhostapp.com/api/delete_api.php', { ids: selectedCandidates })
+      .then(response => {
+        if (response.data.success) {
+          setCandidates(candidates.filter(candidate => !selectedCandidates.includes(candidate.sNo)));
+          setFilteredCandidates(filteredCandidates.filter(candidate => !selectedCandidates.includes(candidate.sNo)));
+          setSelectedCandidates([]);
+        } else {
+          alert('Failed to delete selected candidates.');
+        }
+      })
+      .catch(error => {
+        alert('Error deleting candidates: ' + error.message);
+      });
   };
 
   const availableColumns = [
@@ -85,7 +121,11 @@ function Table() {
 
   return (
     <div>
+      <div className='buttons'>
       <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
+      <button onClick={handleDeleteSelected} disabled={selectedCandidates.length === 0}>Delete</button>
+
+      </div>
       <Modal isOpen={isFilterPopupOpen} onClose={() => setIsFilterPopupOpen(false)}>
         <div className="filter-popup-content">
           {filters.map((filter, index) => (
@@ -116,7 +156,20 @@ function Table() {
         <table>
           <thead>
             <tr>
-              <th style={{borderRadius:"12px 0px 0px 0px"}}>S.No</th>
+              <th>
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedCandidates(filteredCandidates.map(candidate => candidate.sNo));
+                    } else {
+                      setSelectedCandidates([]);
+                    }
+                  }}
+                  checked={selectedCandidates.length === filteredCandidates.length}
+                />
+              </th>
+              <th>S.No</th>
               <th>Category</th>
               <th>Candidate Name</th>
               <th>Date of Birth</th>
@@ -152,6 +205,13 @@ function Table() {
             {currentRows.length > 0 ? (
               currentRows.map((candidate, index) => (
                 <tr key={candidate.sNo}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedCandidates.includes(candidate.sNo)}
+                      onChange={() => handleSelectCandidate(candidate.sNo)}
+                    />
+                  </td>
                   <td>{indexOfFirstRow + index + 1}</td>
                   <td>{candidate.category}</td>
                   <td>{candidate.candidateName}</td>
@@ -186,7 +246,7 @@ function Table() {
               ))
             ) : (
               <tr>
-                <td colSpan="30">No candidates available</td>
+                <td colSpan="31">No candidates available</td>
               </tr>
             )}
           </tbody>

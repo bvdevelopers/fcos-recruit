@@ -96,5 +96,6 @@ button.menu:hover
     display: flex;
     align-items: center;
     background-color: #0A1D50;
+    position: fixed;
     /* justify-content: center; */
 }
