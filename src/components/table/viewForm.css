@@ -1,0 +1,36 @@
+.view-form {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .form-section {
+    margin-bottom: 20px;
+  }
+  
+  fieldset {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  legend {
+    font-weight: bold;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .form-row label {
+    flex: 1;
+    font-weight: bold;
+  }
+  
+  .form-row span {
+    flex: 2;
+    text-align: left;
+  }
+  

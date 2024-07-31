@@ -25,7 +25,7 @@ const Notification = ({ message, type, onClose }) => {
       <div className={`notification-${type}`}>
         <div className="notification-content">
           <span className="close-button" onClick={handleClose}>
-            &times;
+            X
           </span>
           <p>{message}</p>
         </div>

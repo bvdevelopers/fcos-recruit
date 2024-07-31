@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { FaEye } from 'react-icons/fa'; // Assuming you use react-icons for icons
 import Modal from './Modal'; // Corrected the import
 import './table.css';
+import { saveAs } from 'file-saver';
+
 
 function Table() {
   const [candidates, setCandidates] = useState([]);
@@ -13,6 +17,7 @@ function Table() {
   const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 8; // Number of rows per page
+  const navigate = useNavigate(); // To use the history object for navigation
 
   useEffect(() => {
     axios.get('https://fcos-recruitment.000webhostapp.com/api/index.php') // Ensure this is the correct API endpoint
@@ -41,19 +46,15 @@ function Table() {
     let filteredData = candidates;
     
     filters.forEach(filter => {
-      console.log(filter.column.age);
       if (filter.column === 'age' && filter.value) {
         filteredData = filteredData.filter(candidate =>
           candidate[filter.column].toString().includes(filter.value.toString())
         );
-      }
-      else
-      if (filter.column && filter.value) {
+      } else if (filter.column && filter.value) {
         filteredData = filteredData.filter(candidate =>
           candidate[filter.column].toString().toLowerCase().includes(filter.value.toLowerCase())
         );
       }
-        
     });
     setFilteredCandidates(filteredData);
     setIsFilterPopupOpen(false);
@@ -74,6 +75,16 @@ function Table() {
       }
     });
   };
+  const handlePrintCandidates = () => {
+    axios.post('https://fcos-recruitment.000webhostapp.com/api/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        saveAs(blob, 'candidates.pdf');
+      })
+      .catch(error => {
+        alert('Error printing candidates: ' + error.message);
+      });
+  };
 
   const handleDeleteSelected = () => {
     axios.post('https://fcos-recruitment.000webhostapp.com/api/delete_api.php', { ids: selectedCandidates })
@@ -89,6 +100,10 @@ function Table() {
       .catch(error => {
         alert('Error deleting candidates: ' + error.message);
       });
+  };
+
+  const handleViewCandidate = (sNo) => {
+   navigate(`/viewForm/${sNo}`);
   };
 
   const availableColumns = [
@@ -125,6 +140,7 @@ function Table() {
       <div className='buttons'>
       <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
       <button onClick={handleDeleteSelected} disabled={selectedCandidates.length === 0}>Delete</button>
+      <button onClick={handlePrintCandidates} disabled={selectedCandidates.length === 0}>Print</button>
 
       </div>
       <Modal isOpen={isFilterPopupOpen} onClose={() => setIsFilterPopupOpen(false)}>
@@ -189,17 +205,8 @@ function Table() {
               {/* <th>Expecting Job</th> */}
               <th>Current Salary</th>
               <th>Expecting Salary</th>
-              {/* <th>Accommodation</th> */}
-              {/* <th>Food</th> */}
-              {/* <th>Placed</th> */}
-              {/* <th>Biodata Received Date</th> */}
               <th>Status</th>
-              {/* <th>Proposed Company (Joined/Placed)</th> */}
-              {/* <th>Date of Joined</th> */}
-              {/* <th>Last Update Date</th> */}
-              {/* <th>Remarks</th> */}
-              {/* <th>EPF Number</th> */}
-              {/* <th>ESI Number</th> */}
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -232,17 +239,10 @@ function Table() {
                   {/* <td>{candidate.expectingJob}</td> */}
                   <td>{candidate.currentSalary}</td>
                   <td>{candidate.expectingSalary}</td>
-                  {/* <td>{candidate.accommodation}</td> */}
-                  {/* <td>{candidate.food}</td> */}
-                  {/* <td>{candidate.placed}</td> */}
-                  {/* <td>{candidate.biodataReceivedDate}</td> */}
                   <td>{candidate.status}</td>
-                  {/* <td>{candidate.proposedCompanyNameJoinedOrPlaced}</td> */}
-                  {/* <td>{candidate.dateOfJoined}</td> */}
-                  {/* <td>{candidate.lastUpdateDate}</td> */}
-                  {/* <td>{candidate.remarks}</td> */}
-                  {/* <td>{candidate.epfNumber}</td> */}
-                  {/* <td>{candidate.esiNumber}</td> */}
+                  <td>
+                    <FaEye onClick={() => handleViewCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} />
+                  </td>
                 </tr>
               ))
             ) : (

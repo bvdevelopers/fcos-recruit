@@ -7,9 +7,9 @@ import axios from 'axios';
 import  Notification  from '../notification/Notification';
 
 function Form() {
-  const { id } = useParams();
+  // const { id } = useParams();
   const dispatch = useDispatch();
-  const formData = useSelector((state) => state.form[id] || {});
+  const formData = useSelector((state) => state.form || {});
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
@@ -72,7 +72,6 @@ function Form() {
     
     
     
-    
 
 
     let updatedData = { [name]: value };
@@ -80,9 +79,9 @@ function Form() {
     if (name === 'dob') {
       const age = calculateAge(value);
       updatedData = { ...updatedData, age };
-      dispatch(updateForm({ id, pass: updatedData }));
+      dispatch(updateForm(updatedData ));
     }
-    dispatch(updateForm({ id, pass: { [name]: value } }));
+    dispatch(updateForm({ [name]: value } ));
   };
 
   const calculateAge = (dob) => {
@@ -191,17 +190,17 @@ function Form() {
                   <label>Gender:</label>
                   <div className="gender">                   
                     <label>
-                      Male
+                      M
                     </label>
                     <input type="radio" name="gender" value="male" onChange={handleChange} checked={formData.gender === 'male'} />
                     <label>
-                      Female
+                      F
                     </label>
                     <input type="radio" name="gender" value="female" onChange={handleChange} checked={formData.gender === 'female'} />
                     <label>
-                      Transgender
+                      Others
                     </label>
-                    <input type="radio" name="gender" value="transgender" onChange={handleChange} checked={formData.gender === 'transgender'} />
+                    <input type="radio" name="gender" value="other" onChange={handleChange} checked={formData.gender === 'other'} />
 
                   </div>
                 </div>

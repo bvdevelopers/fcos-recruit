@@ -43,15 +43,16 @@
   }
   
   .notification-content {
-    position: relative;
-    display: flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
   }
   
   .close-button {
-    position: absolute;
-    top: 5px;
-    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     font-size: 20px;
     color: #888;
