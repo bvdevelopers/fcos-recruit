@@ -3,6 +3,7 @@ import './Layout.css';
 import { useLocation } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router-dom';
 import { newtab, rmtab } from '../../redux/tabSlice';
+import {  useSelector, useDispatch } from 'react-redux'
 import logo from '../../img/logo.ico';
 
 function Layout() {
