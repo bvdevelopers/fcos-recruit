@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Layout.css';
 import { useLocation } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ function Layout() {
     const value = e.target.parentElement.textContent;
     dispatch(rmtab(index));
 
-    const news = value.slice(0, -1);
+    // const news = value.slice(0, -1);
     // console.log(news);
 
     if (tabsdata.length === 0 || index < 0) {

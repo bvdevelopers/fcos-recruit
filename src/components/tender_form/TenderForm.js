@@ -6,7 +6,7 @@ import { updateForm } from '../../redux/tenderform';
 import axios from 'axios';
 import Notification from '../notification/Notification';
 
-function Tender_Form() {
+function TenderForm() {
   // const { id } = useParams();
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.tenderform || {});
@@ -437,4 +437,4 @@ function Tender_Form() {
   );
 }
 
-export default Tender_Form;
+export default TenderForm;
