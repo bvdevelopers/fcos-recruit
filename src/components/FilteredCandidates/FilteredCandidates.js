@@ -25,7 +25,7 @@ function FilteredCandidates() {
 
   const handleApplyFilters = () => {
     setLoading(true);
-    axios.get('https://fcos-recruitment.000webhostapp.com/api/index.php') // Ensure this is the correct API endpoint
+    axios.get('http://fcosrecruit.rf.gd/api/index.php') // Ensure this is the correct API endpoint
       .then(response => {
         let filteredData = response.data;
 
