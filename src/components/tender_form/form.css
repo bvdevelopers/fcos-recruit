@@ -56,7 +56,7 @@
 
   fieldset {
     
-    box-shadow: 5px 5px 9px 0px gray;
+    box-shadow: 5px 5px 9px 0px gray; 
     min-height: 650px;
     max-height:none;
     width: 100%;
@@ -65,9 +65,8 @@
     margin-bottom: 20px;
     padding: 20px;
     background-color: #faeedc;
-    
+    background-image: linear-gradient(30deg , black, gray);
   }
-
 
   .pair{
     /* border: 3px red solid; */
@@ -94,7 +93,7 @@
   
   label {
     font-weight: 900;
-    color: black;
+    color: white;
     font-size: medium;
     margin-bottom: 5px;
     display: block;
@@ -116,12 +115,13 @@
   input[type="date"],
   textarea,
   select {
-    background-color: gray;
+    background-color: transparent;
     color: white;
     width: 100%;
     height: 30px;
-    border: none;
-    border-radius: 12px;
+    border: gray;
+    border-style: solid;
+    border-radius: 10px;
     padding: 8px;
     margin-bottom: 15px;
     box-sizing: border-box;
@@ -152,11 +152,12 @@ input[type="radio"] {
   
   select {
     width: 100%;
-    background-color: gray ;
+    background-color: transparent ;
     color: white;
     font-size: medium;
     height: 40px;
-    border: none;
+    border-style: solid;
+    border-color: gray;
     border-radius: 12px;
     padding: 8px;
     margin-bottom: 15px;

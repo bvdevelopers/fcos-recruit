@@ -226,7 +226,7 @@ th{
    */
 aside {
   color: #fff;
-  width: 150px !important;
+  width: 200px !important;
   padding-left: 20px;
   height: 100vh;
   background-image: linear-gradient(30deg , black, gray);
@@ -240,7 +240,7 @@ aside {
     background-color: transparent !important;
 }
 aside a {
-  font-size: 12px;
+  font-size: 20px;
   color: #fff;
   display: block;
   padding: 12px;
@@ -263,6 +263,8 @@ aside a button {
     margin-top: 0px;
     width: 100%;
     padding: 1px;
+    font-size:xx-large;
+    font-weight: bolder;
     background-color: transparent;
     color: #f5821f;
     border: none;

@@ -28,7 +28,7 @@ function Layout() {
   const navigate = useNavigate();
   const redux = useSelector((state) => state)
   const tabsdata = redux.tab;
-  const [menuIcon, setMenuIcon] = useState('&#9776;');
+  const [menuIcon, setMenuIcon] = useState('&#x2716;');
 
 
 
@@ -83,9 +83,9 @@ function Layout() {
     const a = document.getElementById("sidenav");
     if (navState.isNavOpened) {
       setMenuIcon('&#x2716;');
-      a.style.width = "150px";
+      a.style.width = "200px";
       a.style.display = "block";
-      setNavStste({ isNavOpened: false, navMargin: "0", navWidth: "150" })
+      setNavStste({ isNavOpened: false, navMargin: "0", navWidth: "200" })
 
     }
     else {

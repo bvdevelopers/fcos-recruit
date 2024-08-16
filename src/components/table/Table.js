@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaEye } from 'react-icons/fa'; // Assuming you use react-icons for icons
+import { FaEye, FaEdit } from 'react-icons/fa'; // Assuming you use react-icons for icons
 import Modal from './Modal'; // Corrected the import
 import './table.css';
 import { saveAs } from 'file-saver';
@@ -133,6 +133,10 @@ function Table() {
   if (error) {
     return <div>Error fetching data: {error.message}</div>;
   }
+  const handleEditCandidate = (sNo) =>{
+    navigate(`/viewForm/${sNo}`); 
+  };
+
 
   return (
     <div>
@@ -242,6 +246,7 @@ function Table() {
                   <td>{candidate.status}</td>
                   <td>
                     <FaEye onClick={() => handleViewCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} />
+                     <FaEdit  onClick={() => handleEditCandidate(candidate.sNo)} style={{ cursor: 'pointer' }}/>
                   </td>
                 </tr>
               ))
