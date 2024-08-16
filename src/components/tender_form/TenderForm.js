@@ -40,7 +40,7 @@ function TenderForm() {
     }
     if (name === 'pincode' && value.length === 6) {
       const pincode = value;
-      const url = `http://fcosrecruit.rf.gd/api/pincode.php?pincode=${pincode}`;
+      const url = `https://fcosrecruit.rf.gd/api/pincode.php?pincode=${pincode}`;
       fetch(url, {
         method: 'GET',
         headers: {
@@ -102,7 +102,7 @@ function TenderForm() {
 
     console.log("Submitting form data:", formData);
 
-    axios.post('http://fcosrecruit.rf.gd/api/insert_api.php', formData, {
+    axios.post('https://fcosrecruit.rf.gd/api/insert_api.php', formData, {
       headers: {
         'Content-Type': 'application/json',
       },

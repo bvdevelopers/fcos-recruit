@@ -8,7 +8,7 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://fcosrecruit.rf.gd/api/count.php')
+    axios.get('https://fcosrecruit.rf.gd/api/count.php')
       .then(response => {
         if (response.data) {
           setData({

@@ -10,7 +10,7 @@ function ViewForm() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://fcosrecruit.rf.gd/api/getById.php?id=${id}`)
+    axios.get(`https://fcosrecruit.rf.gd/api/getById.php?id=${id}`)
       .then(response => {
         setFormData(response.data);
         setLoading(false);
@@ -21,7 +21,7 @@ function ViewForm() {
       });
   }, [id]);
 //   const handlePrintCandidates = () => {
-//     axios.post('http://fcosrecruit.rf.gd/api/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
+//     axios.post('https://fcosrecruit.rf.gd/api/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
 //       .then(response => {
 //         const blob = new Blob([response.data], { type: 'application/pdf' });
 //         saveAs(blob, 'candidates.pdf');
