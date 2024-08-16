@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import Store from './redux/Store'; // Import your Redux store
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
