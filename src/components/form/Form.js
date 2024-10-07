@@ -41,7 +41,7 @@ function Form() {
     }
     if (name === 'pincode' && value.length === 6) {
       const pincode = value;
-      const url = `https://fcos-recruitment.000webhostapp.com/api/pincode.php?pincode=${pincode}`;
+      const url = `https://fcos-api.onrender.com/pincode.php?pincode=${pincode}`;
       fetch(url, {
         method: 'GET',
         headers: {
@@ -109,7 +109,7 @@ function Form() {
 
     console.log("Submitting form data:", formData);
 
-    axios.post('https://fcos-recruitment.000webhostapp.com/api/insert_api.php', formData, {
+    axios.post('https://fcos-api.onrender.com/insert_api.php', formData, {
       headers: {
         'Content-Type': 'application/json',
       },
