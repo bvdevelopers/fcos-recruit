@@ -20,7 +20,7 @@ function Table() {
   const navigate = useNavigate(); // To use the history object for navigation
 
   useEffect(() => {
-    axios.get('https://fcosrecruit.rf.gd/api/index.php') // Ensure this is the correct API endpoint
+    axios.get('https://fcos-api.onrender.com') // Ensure this is the correct API endpoint
       .then(response => {
         setCandidates(response.data);
         setFilteredCandidates(response.data);
@@ -76,7 +76,7 @@ function Table() {
     });
   };
   const handlePrintCandidates = () => {
-    axios.post('https://fcosrecruit.rf.gd/api/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
+    axios.post('https://fcos-api.onrender.com/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
       .then(response => {
         const blob = new Blob([response.data], { type: 'application/pdf' });
         saveAs(blob, 'candidates.pdf');
@@ -87,7 +87,7 @@ function Table() {
   };
 
   const handleDeleteSelected = () => {
-    axios.post('https://fcosrecruit.rf.gd/api/delete_api.php', { ids: selectedCandidates })
+    axios.post('https://fcos-api.onrender.com/delete_api.php', { ids: selectedCandidates })
       .then(response => {
         if (response.data.success) {
           setCandidates(candidates.filter(candidate => !selectedCandidates.includes(candidate.sNo)));
