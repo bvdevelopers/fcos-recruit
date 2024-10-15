@@ -24,9 +24,9 @@ function Layout() {
     setCurrentTab(segment);
   }, [segment]);
 
-  useEffect(() => {
-    navigate("home");
-  }, [navigate]);
+  // useEffect(() => {
+  //   navigate("home");
+  // }, [navigate]);
 
   function chtab(tb) {
     navigate(`/${tb.target.value}`);
