@@ -14,11 +14,6 @@ function Form() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
 
-
-  useEffect(() => {
-    // navigate("home");
-  }, [navigate]);
-
   const handleChange =  (e) => {
     const { name, value } = e.target;
     // Ensure the Aadhar number is exactly 12 digits
@@ -40,25 +35,27 @@ function Form() {
       return;
     }
     if (name === 'pincode' && value.length === 6) {
-      const pincode = value;
-      const url = `https://fcos-api.onrender.com/pincode.php?pincode=${pincode}`;
-      fetch(url, {
-        method: 'GET',
+      const pincode = { "pincode": value };
+    
+      axios.post('https://fcos-api.onrender.com/pincode.php', pincode, {
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
       })
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-
-        }
-        return response.json();
-      })
-      .then(data => {
+        // The response data is already parsed as JSON by axios
+        const data = response.data;
+        
         console.log('Data successfully retrieved from the server:', data);
-        // Update form data with city, state, district
-        // setFormData(prev => ({ ...prev, city: data.city, state: data.state, district: data.district }));
+    
+        // Check if pincode was found and update form data
+        if (data.city && data.state && data.district) {
+          // Update form data with city, state, district
+          // setFormData(prev => ({ ...prev, city: data.city, state: data.state, district: data.district }));
+        } else {
+          console.error('Pincode not found or invalid response');
+        }
+    
         setIsSubmitting(false);
       })
       .catch(error => {
@@ -70,9 +67,6 @@ function Form() {
       setIsSubmitting(false);
     }
     
-    
-    
-
 
     let updatedData = { [name]: value };
 
