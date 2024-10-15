@@ -25,7 +25,7 @@ function ViewForm() {
     axios.post('https://fcos-api.onrender.com/pincode.php/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
       .then(response => {
         const blob = new Blob([response.data], { type: 'application/pdf' });
-        saveAs(blob, 'candidates.pdf');
+        // saveAs(blob, 'candidates.pdf');
       })
       .catch(error => {
         alert('Error printing candidates: ' + error.message);
