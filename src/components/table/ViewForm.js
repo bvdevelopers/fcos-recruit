@@ -20,17 +20,17 @@ function ViewForm() {
         setLoading(false);
       });
   }, [id]);
-  const handlePrintCandidates = () => {
-    let selectedCandidates=[id]
-    axios.post('https://fcos-api.onrender.com/pincode.php/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
-      .then(response => {
-        const blob = new Blob([response.data], { type: 'application/pdf' });
-        // saveAs(blob, 'candidates.pdf');
-      })
-      .catch(error => {
-        alert('Error printing candidates: ' + error.message);
-      });
-  };
+  // const handlePrintCandidates = () => {
+  //   let selectedCandidates=[id]
+  //   axios.post('https://fcos-api.onrender.com/pincode.php/print_api.php', { ids: selectedCandidates }, { responseType: 'blob' })
+  //     .then(response => {
+  //       const blob = new Blob([response.data], { type: 'application/pdf' });
+  //       // saveAs(blob, 'candidates.pdf');
+  //     })
+  //     .catch(error => {
+  //       alert('Error printing candidates: ' + error.message);
+  //     });
+  // };
 
   if (loading) {
     return <div>Loading...</div>;
