@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import './form.css';
+// import './form.css';
 import { updateForm } from '../../redux/tenderform';
 import axios from 'axios';
 import Notification from '../notification/Notification';

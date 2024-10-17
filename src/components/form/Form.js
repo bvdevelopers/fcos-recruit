@@ -1,10 +1,11 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import './form.css';
+// import './form.css';
+import "./new.css";
 import { updateForm } from '../../redux/formSlice';
 import axios from 'axios';
-import  Notification  from '../notification/Notification';
+import Notification from '../notification/Notification';
 
 function Form() {
   // const { id } = useParams();
@@ -14,7 +15,7 @@ function Form() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
 
-  const handleChange =  (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     // Ensure the Aadhar number is exactly 12 digits
     if (name === 'aadharNumber' && value.length > 12) {
@@ -36,46 +37,46 @@ function Form() {
     }
     if (name === 'pincode' && value.length === 6) {
       const pincode = { "pincode": value };
-    
+
       axios.post('https://fcos-api.onrender.com/pincode.php', pincode, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      .then(response => {
-        // The response data is already parsed as JSON by axios
-        const data = response.data;
-        
-        console.log('Data successfully retrieved from the server:', data);
-    
-        // Check if pincode was found and update form data
-        if (data.city && data.state && data.district) {
-          // Update form data with city, state, district
-          // setFormData(prev => ({ ...prev, city: data.city, state: data.state, district: data.district }));
-        } else {
-          console.error('Pincode not found or invalid response');
-        }
-    
-        setIsSubmitting(false);
-      })
-      .catch(error => {
-        console.error('Error retrieving data from the server:', error);
-        setIsSubmitting(false);
-      });
+        .then(response => {
+          // The response data is already parsed as JSON by axios
+          const data = response.data;
+
+          console.log('Data successfully retrieved from the server:', data);
+
+          // Check if pincode was found and update form data
+          if (data.city && data.state && data.district) {
+            // Update form data with city, state, district
+            // setFormData(prev => ({ ...prev, city: data.city, state: data.state, district: data.district }));
+          } else {
+            console.error('Pincode not found or invalid response');
+          }
+
+          setIsSubmitting(false);
+        })
+        .catch(error => {
+          console.error('Error retrieving data from the server:', error);
+          setIsSubmitting(false);
+        });
     } else {
       console.error('Invalid pincode');
       setIsSubmitting(false);
     }
-    
+
 
     let updatedData = { [name]: value };
 
     if (name === 'dob') {
       const age = calculateAge(value);
       updatedData = { ...updatedData, age };
-      dispatch(updateForm(updatedData ));
+      dispatch(updateForm(updatedData));
     }
-    dispatch(updateForm({ [name]: value } ));
+    dispatch(updateForm({ [name]: value }));
   };
 
   const calculateAge = (dob) => {
@@ -108,15 +109,13 @@ function Form() {
       },
     })
       .then(response => {
-        if(response.message === 'Data inserted successfully')
-          {
-        console.log('Data successfully sent to the server:', response);
-        setNotification({ message: 'Form submitted successfully!', type: 'success' });
-          }
-          else
-          {
-            setNotification({ message: response.message, type: 'error' });
-          }
+        if (response.message === 'Data inserted successfully') {
+          console.log('Data successfully sent to the server:', response);
+          setNotification({ message: 'Form submitted successfully!', type: 'success' });
+        }
+        else {
+          setNotification({ message: response.message, type: 'error' });
+        }
         // alert('Submitted');
         setIsSubmitting(false);
       })
@@ -143,12 +142,12 @@ function Form() {
   return (
     <div className="formmain">
       <div className="form">
-      <Notification message={notification.message} type={notification.type} onClose={closeNotification} />
-      <form onSubmit={handleSubmit}>
-          <div className="pair">
+        <Notification message={notification.message} type={notification.type} onClose={closeNotification} />
+        <form onSubmit={handleSubmit}>
+          {/* <div className="pair"> */}
             <div className="form-section">
               <fieldset>
-                <legend>Personal Information</legend>
+                <div className='form-head'>Personal Information</div>
                 <div className="form-row">
                   <label>Category: *</label>
                   <select name="category" onChange={handleChange} value={formData.category || ''} required>
@@ -182,7 +181,7 @@ function Form() {
                 </div>
                 <div className="form-row">
                   <label>Gender:</label>
-                  <div className="gender">                   
+                  <div className="gender">
                     <label>
                       M
                     </label>
@@ -219,13 +218,13 @@ function Form() {
                   <input type="text" name="accountnumber" onChange={handleChange} value={formData.accountnumber || ''} />
                 </div>
                 <div className="form-row">
-                <label>IFSC code:</label>
-                  <input type="text" name="ifsccode"   onChange={handleChange} value={formData.ifsccode || ''} />
+                  <label>IFSC code:</label>
+                  <input type="text" name="ifsccode" onChange={handleChange} value={formData.ifsccode || ''} />
                   <label>Branch:</label>
                   <input type="text" name="branch" onChange={handleChange} value={formData.branch || ''} />
-                 </div>
+                </div>
 
-                 <div className="form-row">
+                <div className="form-row">
                   <label>shirt Size:</label>
                   <select name="shirtsize" onChange={handleChange} value={formData.shirtsize || ''}>
                     <option value="">-select-</option>
@@ -257,7 +256,7 @@ function Form() {
                     <option value="42">12</option>
                   </select>
                 </div>
-               
+
               </fieldset>
             </div>
 
@@ -294,7 +293,7 @@ function Form() {
                 </div>
                 <div className="form-row">
                   <label>District: *</label>
-                  <input type="text" name="district" onChange={handleChange} value={formData.district || ''} required/>
+                  <input type="text" name="district" onChange={handleChange} value={formData.district || ''} required />
                 </div>
                 <div className="form-row">
                   <label>State:</label>
@@ -302,7 +301,7 @@ function Form() {
                 </div>
               </fieldset>
             </div>
-          </div>
+          {/* </div> */}
           <div className="pair">
 
             <div className="form-section">
@@ -310,7 +309,7 @@ function Form() {
                 <legend>Professional Information</legend>
                 <div className="form-row">
                   <label>Qualification: *</label>
-                  <input type="text" name="qualification" onChange={handleChange} value={formData.qualification || ''} required/>
+                  <input type="text" name="qualification" onChange={handleChange} value={formData.qualification || ''} required />
                 </div>
                 <div className="form-row">
                   <label>Current Company Name:</label>
@@ -338,11 +337,11 @@ function Form() {
                 </div>
                 <div className="form-row">
                   <label>Current Salary: *</label>
-                  <input type="number" name="currentSalary" onChange={handleChange} value={formData.currentSalary || ''} required/>
+                  <input type="number" name="currentSalary" onChange={handleChange} value={formData.currentSalary || ''} required />
                 </div>
                 <div className="form-row">
                   <label>Expecting Salary: *</label>
-                  <input type="number" name="expectingSalary" onChange={handleChange} value={formData.expectingSalary || ''} required/>
+                  <input type="number" name="expectingSalary" onChange={handleChange} value={formData.expectingSalary || ''} required />
                 </div>
                 <div className="form-row">
                   <label>Accommodation:</label>

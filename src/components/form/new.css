@@ -1,0 +1,29 @@
+.formmain{
+    width: 90%;
+    margin: auto;
+}
+
+.form{
+    background: white;
+}
+
+.form-head{
+    border-bottom: 1px solid;
+    padding: 14px 0px;
+    margin: 20px 0px 12px 0px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.form-row{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+.form-row > label{
+
+}
+.form-row > input{
+    height: 40px;
+}
