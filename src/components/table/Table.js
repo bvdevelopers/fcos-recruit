@@ -3,8 +3,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEdit } from 'react-icons/fa'; // Assuming you use react-icons for icons
 import Modal from './Modal'; // Corrected the import
-import './table.css';
+// import './table.css';
 import { saveAs } from 'file-saver';
+import 'bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+
 
 
 function Table() {
@@ -16,7 +21,7 @@ function Table() {
   const [selectedCandidates, setSelectedCandidates] = useState([]);
   const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 8; // Number of rows per page
+  const [rowsPerPage,setRowsPerPage] = useState(10); // Number of rows per page
   const navigate = useNavigate(); // To use the history object for navigation
 
   useEffect(() => {
@@ -44,7 +49,7 @@ function Table() {
 
   const handleApplyFilters = () => {
     let filteredData = candidates;
-    
+
     filters.forEach(filter => {
       if (filter.column === 'age' && filter.value) {
         filteredData = filteredData.filter(candidate =>
@@ -87,23 +92,28 @@ function Table() {
   };
 
   const handleDeleteSelected = () => {
-    axios.post('https://fcos-api.onrender.com/delete_api.php', { ids: selectedCandidates })
-      .then(response => {
-        if (response.data.success) {
-          setCandidates(candidates.filter(candidate => !selectedCandidates.includes(candidate.sNo)));
-          setFilteredCandidates(filteredCandidates.filter(candidate => !selectedCandidates.includes(candidate.sNo)));
-          setSelectedCandidates([]);
-        } else {
-          alert('Failed to delete selected candidates.');
-        }
-      })
-      .catch(error => {
-        alert('Error deleting candidates: ' + error.message);
-      });
+
+      axios.post('https://fcos-api.onrender.com/delete_api.php', { ids: selectedCandidates })
+        .then(response => {
+          if (response.data.success) {
+            setCandidates(candidates.filter(candidate => !selectedCandidates.includes(candidate.sNo)));
+            setFilteredCandidates(filteredCandidates.filter(candidate => !selectedCandidates.includes(candidate.sNo)));
+            setSelectedCandidates([]);
+
+            window.location.reload();
+
+          } else {
+            alert('Failed to delete selected candidates.');
+          }
+        })
+        .catch(error => {
+          alert('Error deleting candidates: ' + error.message);
+        });
+    
   };
 
   const handleViewCandidate = (sNo) => {
-   navigate(`/viewForm/${sNo}`);
+    navigate(`/viewForm/${sNo}`);
   };
 
   const availableColumns = [
@@ -120,6 +130,12 @@ function Table() {
     }
   };
 
+  const rowsPerPageChange = (e) =>{
+    const newRowsPerPage = Number(e.target.value);
+    setRowsPerPage(newRowsPerPage);
+    setCurrentPage(1); // Reset to first page when rows per page changes
+  };
+
   const handleNextPage = () => {
     if (currentPage < Math.ceil(filteredCandidates.length / rowsPerPage)) {
       setCurrentPage(prevPage => prevPage + 1);
@@ -133,20 +149,50 @@ function Table() {
   if (error) {
     return <div>Error fetching data: {error.message}</div>;
   }
-  const handleEditCandidate = (sNo) =>{
-    navigate(`/viewForm/${sNo}`); 
+  const handleEditCandidate = (sNo) => {
+    navigate(`/viewForm/${sNo}`);
   };
 
 
   return (
-    <div>
-      <br/><br/><br/>
-      <div className='buttons'>
-      <button onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
-      <button onClick={handleDeleteSelected} disabled={selectedCandidates.length === 0}>Delete</button>
-      <button onClick={handlePrintCandidates} disabled={selectedCandidates.length === 0}>Print</button>
 
+    <div>
+      <div class="d-flex justify-content-end">
+
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+          <button class="btn btn-primary" onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
+          <button
+            className="btn btn-danger"
+            disabled={selectedCandidates.length === 0}
+            data-bs-toggle="modal"
+            data-bs-target="#deleteConfirmationModal"
+          >
+            Delete
+          </button>
+          <button class="btn btn-secondary" onClick={handlePrintCandidates} disabled={selectedCandidates.length === 0}>Print</button>
+
+        </div>
       </div>
+      {/* -----dlete conform modal */}
+      <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteConfirmationLabel">Confirm Deletion</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete the selected candidates?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmDeleteBtn" onClick={handleDeleteSelected}>Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* ---------------------------------------------------------- */}
+
       <Modal isOpen={isFilterPopupOpen} onClose={() => setIsFilterPopupOpen(false)}>
         <div className="filter-popup-content">
           {filters.map((filter, index) => (
@@ -173,8 +219,8 @@ function Table() {
           <button onClick={handleApplyFilters}>Apply Filters</button>
         </div>
       </Modal>
-      <div className="table">
-        <table>
+      <div class="table-responsive">
+        <table class='table' style={{ width: '100%' }}>
           <thead>
             <tr>
               <th>
@@ -198,17 +244,17 @@ function Table() {
               <th>Gender</th>
               <th>Phone Number</th>
               <th>Email</th>
-              <th>Address</th>
-              <th>City</th>
+              {/* <th>Address</th> */}
+              {/* <th>City</th> */}
               <th>District</th>
               <th>State</th>
               {/* <th>Aadhar Number</th> */}
               <th>Qualification</th>
               {/* <th>Current Company</th> */}
-              <th>Experience</th>
+              {/* <th>Experience</th> */}
               {/* <th>Expecting Job</th> */}
-              <th>Current Salary</th>
-              <th>Expecting Salary</th>
+              {/* <th>Current Salary</th> */}
+              {/* <th>Expecting Salary</th> */}
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -232,21 +278,21 @@ function Table() {
                   <td>{candidate.gender}</td>
                   <td>{candidate.contactPhoneNo}</td>
                   <td>{candidate.contactEmailId}</td>
-                  <td>{candidate.address}</td>
-                  <td>{candidate.city}</td>
+                  {/* <td>{candidate.address}</td> */}
+                  {/* <td>{candidate.city}</td> */}
                   <td>{candidate.district}</td>
                   <td>{candidate.state}</td>
                   {/* <td>{candidate.aadharNumber}</td> */}
                   <td>{candidate.qualification}</td>
                   {/* <td>{candidate.currentCompanyName}</td> */}
-                  <td>{candidate.experience}</td>
+                  {/* <td>{candidate.experience}</td> */}
                   {/* <td>{candidate.expectingJob}</td> */}
-                  <td>{candidate.currentSalary}</td>
-                  <td>{candidate.expectingSalary}</td>
+                  {/* <td>{candidate.currentSalary}</td> */}
+                  {/* <td>{candidate.expectingSalary}</td> */}
                   <td>{candidate.status}</td>
                   <td>
-                    <FaEye onClick={() => handleViewCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} />
-                     <FaEdit  onClick={() => handleEditCandidate(candidate.sNo)} style={{ cursor: 'pointer' }}/>
+                    <FaEye onClick={() => handleViewCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} className="me-2" />
+                    <FaEdit onClick={() => handleEditCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} />
                   </td>
                 </tr>
               ))
@@ -258,11 +304,25 @@ function Table() {
           </tbody>
         </table>
       </div>
-      <div className="pagination">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</a></li>
+          <li class="page-item"><a class="page-link">Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</a></li>
+          <li class="page-item"><a class="page-link" onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</a></li>
+        </ul>
+        <select onChange={rowsPerPageChange} class="form-select" aria-label="Default select example">
+  <option selected value="10" >10</option>
+  <option value="20">20</option>
+  <option value="30">30</option>
+</select>
+      </nav>
+      
+      {/* <div className="pagination">
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
         <span>Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</span>
         <button onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</button>
-      </div>
+      </div> */}
+
     </div>
   );
 }

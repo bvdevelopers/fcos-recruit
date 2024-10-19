@@ -8,8 +8,8 @@ import Home from './components/home/home';
 import TenderForm from './components/tender_form/TenderForm'
 import ViewForm from './components/table/ViewForm';
 import FilteredCandidates from './components/FilteredCandidates/FilteredCandidates';
-import "./App.css"
-
+import "./App.css";
+import "./bootstrap/bootstrap.css"
 function App() {
 
   return (

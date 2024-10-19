@@ -105,17 +105,17 @@ padding-top: 50px;
 }
 
 
-
+/* 
 tr{
     background-color: #d0e1f9 !important;
     color: #000000 !important;
 }
 th{
-    background-color: #00293c !important;
+    background-color: #00293c;
 }
 .header{
     background-color: #021c1e !important;
-}
+} */
 /* .sidebar{
     background-color: #004445 !important;
 } */

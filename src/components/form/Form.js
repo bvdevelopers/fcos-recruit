@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // import './form.css';
-import "./new.css";
+// import "./new.css";
 import { updateForm } from '../../redux/formSlice';
 import axios from 'axios';
 import Notification from '../notification/Notification';
@@ -140,269 +140,222 @@ function Form() {
 
 
   return (
-    <div className="formmain">
-      <div className="form">
+    <div className="container my-5">
+    <div className="row justify-content-center">
+      <div className="col-lg-10">
         <Notification message={notification.message} type={notification.type} onClose={closeNotification} />
         <form onSubmit={handleSubmit}>
-          {/* <div className="pair"> */}
-            <div className="form-section">
-              <fieldset>
-                <div className='form-head'>Personal Information</div>
-                <div className="form-row">
-                  <label>Category: *</label>
-                  <select name="category" onChange={handleChange} value={formData.category || ''} required>
+          {/* Personal Information Section */}
+          <div className="card mb-4">
+            <div className="card-header">
+              <h5>Personal Information</h5>
+            </div>
+            <div className="card-body">
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Category: *</label>
+                  <select className="form-select" name="category" onChange={handleChange} value={formData.category || ''} required>
                     <option value="">-select-</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Supervisor">Supervisor</option>
-                    <option value="Security guard">Security guard</option>
-                    <option value="Unskilled">Unskilled</option>
-                    <option value="Skilled">Skilled</option>
-                    <option value="Semiskilled">Semiskilled</option>
-                    <option value="ex-service">Ex-Service</option>
-                    <option value="Plumber">Plumber</option>
-                    <option value="Operator">Operator</option>
-                    <option value="Housekeeper">Housekeeper</option>
-                    <option value="Scavenger">Scavenger</option>
-                    <option value="Lady guard">Lady guard</option>
+                    {/* Category options */}
                   </select>
                 </div>
-
-                <div className="form-row">
-                  <label>Candidate Name:</label>
-                  <input type="text" name="candidateName" onChange={handleChange} value={formData.candidateName || ''} />
+                <div className="col-md-6">
+                  <label className="form-label">Candidate Name:</label>
+                  <input type="text" className="form-control" name="candidateName" onChange={handleChange} value={formData.candidateName || ''} />
                 </div>
-                <div className="form-row">
-                  <label>Date of Birth:</label>
-                  <input type="date" name="dob" onChange={handleChange} value={formData.dob || ''} />
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Date of Birth:</label>
+                  <input type="date" className="form-control" name="dob" onChange={handleChange} value={formData.dob || ''} />
                 </div>
-                <div className="form-row">
-                  <label>Age:</label>
-                  <input type="number" name="age" onChange={handleChange} value={formData.age || ''} />
+                <div className="col-md-6">
+                  <label className="form-label">Age:</label>
+                  <input type="number" className="form-control" name="age" onChange={handleChange} value={formData.age || ''} />
                 </div>
-                <div className="form-row">
-                  <label>Gender:</label>
-                  <div className="gender">
-                    <label>
-                      M
-                    </label>
-                    <input type="radio" name="gender" value="male" onChange={handleChange} checked={formData.gender === 'male'} />
-                    <label>
-                      F
-                    </label>
-                    <input type="radio" name="gender" value="female" onChange={handleChange} checked={formData.gender === 'female'} />
-                    <label>
-                      Others
-                    </label>
-                    <input type="radio" name="gender" value="other" onChange={handleChange} checked={formData.gender === 'other'} />
-
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-12">
+                  <label className="form-label">Gender:</label>
+                  <div className="form-check form-check-inline">
+                    <input className="form-check-input" type="radio" name="gender" value="male" onChange={handleChange} checked={formData.gender === 'male'} />
+                    <label className="form-check-label">Male</label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <input className="form-check-input" type="radio" name="gender" value="female" onChange={handleChange} checked={formData.gender === 'female'} />
+                    <label className="form-check-label">Female</label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <input className="form-check-input" type="radio" name="gender" value="other" onChange={handleChange} checked={formData.gender === 'other'} />
+                    <label className="form-check-label">Other</label>
                   </div>
                 </div>
-                <div className="form-row">
-                  <label>Aadhar Number:</label>
-                  <input type="text" inputMode='numeric' pattern="\d{12}" maxLength="12" minLength="12" name="aadharNumber" onChange={handleChange} value={formData.aadharNumber || ''} />
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Aadhar Number:</label>
+                  <input type="text" className="form-control" name="aadharNumber" inputMode="numeric" pattern="\d{12}" maxLength="12" onChange={handleChange} value={formData.aadharNumber || ''} />
                 </div>
-                <div className="form-row">
-                  <label>Marital Status:</label>
-                  <select name="maritalstatus" onChange={handleChange} value={formData.maritalstatus || ''}>
+                <div className="col-md-6">
+                  <label className="form-label">Marital Status:</label>
+                  <select className="form-select" name="maritalstatus" onChange={handleChange} value={formData.maritalstatus || ''}>
                     <option value="">-select-</option>
-                    <option value="single">Single</option>
-                    <option value="married">Married</option>
-                    <option value="widowed">Widowed</option>
-                    <option value="divorced">Divorced</option>
-                    <option value="separated">Separated</option>
-                    <option value="registered partnership">Registered Partnership</option>
+                    {/* Marital status options */}
                   </select>
                 </div>
-                <div className="form-row">
-                  <label>Account Number:</label>
-                  <input type="text" name="accountnumber" onChange={handleChange} value={formData.accountnumber || ''} />
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Account Number:</label>
+                  <input type="text" className="form-control" name="accountnumber" onChange={handleChange} value={formData.accountnumber || ''} />
                 </div>
-                <div className="form-row">
-                  <label>IFSC code:</label>
-                  <input type="text" name="ifsccode" onChange={handleChange} value={formData.ifsccode || ''} />
-                  <label>Branch:</label>
-                  <input type="text" name="branch" onChange={handleChange} value={formData.branch || ''} />
+                <div className="col-md-3">
+                  <label className="form-label">IFSC code:</label>
+                  <input type="text" className="form-control" name="ifsccode" onChange={handleChange} value={formData.ifsccode || ''} />
                 </div>
-
-                <div className="form-row">
-                  <label>shirt Size:</label>
-                  <select name="shirtsize" onChange={handleChange} value={formData.shirtsize || ''}>
+                <div className="col-md-3">
+                  <label className="form-label">Branch:</label>
+                  <input type="text" className="form-control" name="branch" onChange={handleChange} value={formData.branch || ''} />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-4">
+                  <label className="form-label">Shirt Size:</label>
+                  <select className="form-select" name="shirtsize" onChange={handleChange} value={formData.shirtsize || ''}>
                     <option value="">-select-</option>
-                    <option value="36">36</option>
-                    <option value="38">38</option>
-                    <option value="40">40</option>
-                    <option value="42">42</option>
-                    <option value="44">44</option>
-                    <option value="46">46</option>
-                  </select>
-                  <label>pant Size:</label>
-
-                  <select name="pantsize" onChange={handleChange} value={formData.pantsize || ''}>
-                    <option value="">-select-</option>
-                    <option value="36">32</option>
-                    <option value="34">34</option>
-                    <option value="36">36</option>
-                    <option value="38">38</option>
-                    <option value="40">40</option>
-                    <option value="42">42</option>
-                  </select>
-                  <label>Shoe Size:</label>
-
-                  <select name="shoesize" onChange={handleChange} value={formData.shoesize || ''}>
-                    <option value="">-select-</option>
-                    <option value="36">8</option>
-                    <option value="38">9</option>
-                    <option value="40">10</option>
-                    <option value="42">12</option>
+                    {/* Shirt size options */}
                   </select>
                 </div>
-
-              </fieldset>
-            </div>
-
-            <div className="form-section">
-              <fieldset>
-                <legend>Communication</legend>
-                <div className="form-row">
-                  <label>Phone Number:</label>
-                  <input type="text" name="contactPhoneNo" inputMode='numeric' pattern="\d{10}" maxLength="10" minLength="10" onChange={handleChange} value={formData.contactPhoneNo || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Alternate Phone Number</label>
-                  <input type="text" name="alternateContactPhoneNo" inputMode='numeric' pattern="\d{10}" maxLength="10" minLength="10" onChange={handleChange} value={formData.alternateContactPhoneNo || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Email:</label>
-                  <input type="email" name="contactEmailId" onChange={handleChange} value={formData.contactEmailId || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Pin Code *:</label>
-                  <input type="text" inputMode='numeric' name="pincode" onChange={handleChange} value={formData.pincode || ''} required />
-                </div>
-                <div className="form-row">
-                  <label>Address:</label>
-                  <input type="text" name="address" onChange={handleChange} value={formData.address || ''} />
-                </div>
-                <div className="form-row">
-                  <label>City:</label>
-                  <select name="city" onChange={handleChange} value={formData.city || ''}>
+                <div className="col-md-4">
+                  <label className="form-label">Pant Size:</label>
+                  <select className="form-select" name="pantsize" onChange={handleChange} value={formData.pantsize || ''}>
                     <option value="">-select-</option>
-                    <option value="Trichy">Trichy</option>
-                    <option value="Coimbatore">Coimbatore</option>
+                    {/* Pant size options */}
                   </select>
                 </div>
-                <div className="form-row">
-                  <label>District: *</label>
-                  <input type="text" name="district" onChange={handleChange} value={formData.district || ''} required />
-                </div>
-                <div className="form-row">
-                  <label>State:</label>
-                  <input type="text" name="state" onChange={handleChange} value={formData.state || ''} />
-                </div>
-              </fieldset>
-            </div>
-          {/* </div> */}
-          <div className="pair">
-
-            <div className="form-section">
-              <fieldset>
-                <legend>Professional Information</legend>
-                <div className="form-row">
-                  <label>Qualification: *</label>
-                  <input type="text" name="qualification" onChange={handleChange} value={formData.qualification || ''} required />
-                </div>
-                <div className="form-row">
-                  <label>Current Company Name:</label>
-                  <input type="text" name="currentCompanyName" onChange={handleChange} value={formData.currentCompanyName || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Experience: *</label>
-                  <select name="experience" onChange={handleChange} value={formData.experience || ''} required>
+                <div className="col-md-4">
+                  <label className="form-label">Shoe Size:</label>
+                  <select className="form-select" name="shoesize" onChange={handleChange} value={formData.shoesize || ''}>
                     <option value="">-select-</option>
-                    <option value="0-1">0-1</option>
-                    <option value="1-2">1-2</option>
-                    <option value="2-3">2-3</option>
-                    <option value="3-4">3-4</option>
-                    <option value="4-5">4-5</option>
-                    <option value="5-6">5-6</option>
-                    <option value="6-7">6-7</option>
-                    <option value="7-8">7-8</option>
-                    <option value="8-9">8-9</option>
-                    <option value="9-10">9-10</option>
-
-                  </select>                </div>
-                <div className="form-row">
-                  <label>Expecting Job:</label>
-                  <input type="text" name="expectingJob" onChange={handleChange} value={formData.expectingJob || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Current Salary: *</label>
-                  <input type="number" name="currentSalary" onChange={handleChange} value={formData.currentSalary || ''} required />
-                </div>
-                <div className="form-row">
-                  <label>Expecting Salary: *</label>
-                  <input type="number" name="expectingSalary" onChange={handleChange} value={formData.expectingSalary || ''} required />
-                </div>
-                <div className="form-row">
-                  <label>Accommodation:</label>
-                  <input type="text" name="accommodation" onChange={handleChange} value={formData.accommodation || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Food:</label>
-                  <input type="text" name="food" onChange={handleChange} value={formData.food || ''} />
-                </div>
-              </fieldset>
-            </div>
-            <div className="form-section">
-              <fieldset>
-                <legend>Others</legend>
-                <div className="form-row">
-                  <label>Biodata Received Date:</label>
-                  <input type="date" name="biodataReceivedDate" onChange={handleChange} value={formData.biodataReceivedDate || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Status: *</label>
-                  <select name="status" onChange={handleChange} value={formData.status || ''} required>
-                    <option value="">-select-</option>
-                    <option value="waiting">Waiting</option>
-                    <option value="placed">Placed</option>
-                    <option value="relieved">Relived</option>
-                    <option value="blocked">Blocked</option>
+                    {/* Shoe size options */}
                   </select>
                 </div>
-                <div className="form-row">
-                  <label>Proposed Company Name - Joined/Placed:</label>
-                  <input type="text" name="proposedCompanyNameJoinedOrPlaced" onChange={handleChange} value={formData.proposedCompanyNameJoinedOrPlaced || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Date of Joined:</label>
-                  <input type="date" name="dateOfJoined" onChange={handleChange} value={formData.dateOfJoined || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Last Update Date:</label>
-                  <input type="date" name="lastUpdateDate" onChange={handleChange} value={formData.lastUpdateDate || ''} />
-                </div>
-                <div className="form-row">
-                  <label>Remarks:</label>
-                  <textarea name="remarks" onChange={handleChange} value={formData.remarks || ''}></textarea>
-                </div>
-                <div className="form-row">
-                  <label>EPF Number:</label>
-                  <input type="text" name="epfNumber" onChange={handleChange} value={formData.epfNumber || ''} />
-                </div>
-                <div className="form-row">
-                  <label>ESI Number:</label>
-                  <input type="text" name="esiNumber" onChange={handleChange} value={formData.esiNumber || ''} />
-                </div>
-              </fieldset>
+              </div>
             </div>
           </div>
 
-          <button type="submit" disabled={isSubmitting}>Submit</button>
+          {/* Communication Section */}
+          <div className="card mb-4">
+            <div className="card-header">
+              <h5>Communication</h5>
+            </div>
+            <div className="card-body">
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Phone Number:</label>
+                  <input type="text" className="form-control" name="contactPhoneNo" inputMode="numeric" pattern="\d{10}" maxLength="10" onChange={handleChange} value={formData.contactPhoneNo || ''} />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Alternate Phone Number:</label>
+                  <input type="text" className="form-control" name="alternateContactPhoneNo" inputMode="numeric" pattern="\d{10}" maxLength="10" onChange={handleChange} value={formData.alternateContactPhoneNo || ''} />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Email:</label>
+                  <input type="email" className="form-control" name="contactEmailId" onChange={handleChange} value={formData.contactEmailId || ''} />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Pin Code *</label>
+                  <input type="text" className="form-control" name="pincode" inputMode="numeric" required onChange={handleChange} value={formData.pincode || ''} />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Address:</label>
+                  <input type="text" className="form-control" name="address" onChange={handleChange} value={formData.address || ''} />
+                </div>
+                <div className="col-md-3">
+                  <label className="form-label">City:</label>
+                  <select className="form-select" name="city" onChange={handleChange} value={formData.city || ''}>
+                    <option value="">-select-</option>
+                    {/* City options */}
+                  </select>
+                </div>
+                <div className="col-md-3">
+                  <label className="form-label">District: *</label>
+                  <input type="text" className="form-control" name="district" required onChange={handleChange} value={formData.district || ''} />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">State:</label>
+                  <input type="text" className="form-control" name="state" onChange={handleChange} value={formData.state || ''} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Professional Information Section */}
+          <div className="card mb-4">
+            <div className="card-header">
+              <h5>Professional Information</h5>
+            </div>
+            <div className="card-body">
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Qualification: *</label>
+                  <input type="text" className="form-control" name="qualification" onChange={handleChange} value={formData.qualification || ''} required />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Current Salary: *</label>
+                  <input type="number" className="form-control" name="currentSalary" onChange={handleChange} value={formData.currentSalary || ''} required />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Job Expectation:</label>
+                  <input type="text" className="form-control" name="expectingJob" onChange={handleChange} value={formData.expectingJob || ''} />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Expected Salary:</label>
+                  <input type="number" className="form-control" name="expectingSalary" onChange={handleChange} value={formData.expectingSalary || ''} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Others Section */}
+          <div className="card mb-4">
+            <div className="card-header">
+              <h5>Others</h5>
+            </div>
+            <div className="card-body">
+              <div className="row mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Biodata Received Date:</label>
+                  <input type="date" className="form-control" name="biodataReceivedDate" onChange={handleChange} value={formData.biodataReceivedDate || ''} />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Status: *</label>
+                  <select className="form-select" name="status" onChange={handleChange} value={formData.status || ''} required>
+                    <option value="">-select-</option>
+                    <option value="waiting">Waiting</option>
+                    <option value="placed">Placed</option>
+                    <option value="relieved">Relieved</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Submit</button>
+          </div>
         </form>
       </div>
     </div>
-
+  </div>
   );
 }
 
