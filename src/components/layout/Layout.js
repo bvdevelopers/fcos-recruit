@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 import './Layout.css';
-import { useLocation } from 'react-router-dom';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { newtab, rmtab } from '../../redux/tabSlice';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+// import { newtab, rmtab } from '../../redux/tabSlice';
+// import { useSelector, useDispatch } from 'react-redux';
 import logo from '../../img/logo.ico';
 
 function Layout() {
@@ -94,7 +94,7 @@ function Layout() {
           </div> */}
    <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand"  target="_blank" rel="noopener noreferrer" href="https://www.fcos.in/">
       <img src={logo} alt="Bootstrap" width="72" height="36"/>
     </a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
