@@ -306,9 +306,9 @@ function Table() {
       </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</a></li>
-          <li class="page-item"><a class="page-link">Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</a></li>
-          <li class="page-item"><a class="page-link" onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</a></li>
+          <li class="page-item"><button class="page-link" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button></li>
+          <li class="page-item"><button class="page-link">Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</button></li>
+          <li class="page-item"><button class="page-link" onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</button></li>
         </ul>
         <select onChange={rowsPerPageChange} class="form-select" aria-label="Default select example">
   <option selected value="10" >10</option>
