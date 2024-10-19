@@ -44,5 +44,7 @@
   },
   "devDependencies": {
     "axios": "^1.7.2"
-  }
+  },
+  "homepage": "https://fcosrecruit.netlify.app/home"
+
 }
