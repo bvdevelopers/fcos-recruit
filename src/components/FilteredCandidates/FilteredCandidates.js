@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './filteredCandidates.css';
+import { FaUser, FaBirthdayCake, FaVenusMars, FaPhoneAlt, FaEnvelope  } from 'react-icons/fa';
+import { IoLocation } from "react-icons/io5";
+
+// import './filteredCandidates.css';
 
 function FilteredCandidates() {
   const [candidates, setCandidates] = useState([]);
@@ -25,7 +28,7 @@ function FilteredCandidates() {
 
   const handleApplyFilters = () => {
     setLoading(true);
-    axios.get('http://fcosrecruit.rf.gd/api/index.php') // Ensure this is the correct API endpoint
+    axios.get('https://fcos-api.onrender.com/index.php') // Ensure this is the correct API endpoint
       .then(response => {
         let filteredData = response.data;
 
@@ -52,74 +55,159 @@ function FilteredCandidates() {
 
   return (
     <div>
-      <div className="filter-popup-content">
-        {filters.map((filter, index) => (
-          <div key={index} className="filter-row">
-            <select
-              value={filter.column}
-              onChange={(e) => handleFilterChange(index, 'column', e.target.value)}
-            >
-              <option value="">Select Column</option>
-              <option value="category">Category</option>
-              <option value="candidateName">Candidate Name</option>
-              <option value="age">Age</option>
-              <option value="gender">Gender</option>
-              <option value="contactPhoneNo">Phone Number</option>
-              <option value="contactEmailId">Email</option>
-              <option value="address">Address</option>
-              <option value="city">City</option>
-              <option value="district">District</option>
-              <option value="state">State</option>
-              <option value="qualification">Qualification</option>
-              <option value="experience">Experience</option>
-              <option value="currentSalary">Current Salary</option>
-              <option value="expectingSalary">Expecting Salary</option>
-              <option value="status">Status</option>
-            </select>
-            <input
-              type="text"
-              value={filter.value}
-              onChange={(e) => handleFilterChange(index, 'value', e.target.value)}
-              placeholder="Value"
-            />
-            <button onClick={() => handleRemoveFilter(index)}>Remove</button>
-          </div>
-        ))}
-        <button onClick={handleAddFilter}>Add Filter</button>
-        <button onClick={handleApplyFilters}>Apply Filters</button>
-      </div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error fetching data: {error.message}</div>
-      ) : (
-        <div className="cards-container">
-          {candidates.length > 0 ? (
-            candidates.map(candidate => (
-              <div key={candidate.sNo} className="candidate-card">
-                <h2>{candidate.candidateName}</h2>
-                <p><strong>Category:</strong> {candidate.category}</p>
-                <p><strong>Age:</strong> {candidate.age}</p>
-                <p><strong>Gender:</strong> {candidate.gender}</p>
-                <p><strong>Phone Number:</strong> {candidate.contactPhoneNo}</p>
-                <p><strong>Email:</strong> {candidate.contactEmailId}</p>
-                <p><strong>Address:</strong> {candidate.address}</p>
-                <p><strong>City:</strong> {candidate.city}</p>
-                <p><strong>District:</strong> {candidate.district}</p>
-                <p><strong>State:</strong> {candidate.state}</p>
-                <p><strong>Qualification:</strong> {candidate.qualification}</p>
-                <p><strong>Experience:</strong> {candidate.experience}</p>
-                <p><strong>Current Salary:</strong> {candidate.currentSalary}</p>
-                <p><strong>Expecting Salary:</strong> {candidate.expectingSalary}</p>
-                <p><strong>Status:</strong> {candidate.status}</p>
-              </div>
-            ))
-          ) : (
-            <p>No candidates available</p>
-          )}
+  {/* Filter Section */}
+  <div className="filter-popup-content">
+    {filters.map((filter, index) => (
+      <div key={index} className="row g-2 align-items-center mb-3">
+        <div className="col-md-5">
+          <select
+            className="form-select"
+            value={filter.column}
+            onChange={(e) => handleFilterChange(index, 'column', e.target.value)}
+          >
+            <option value="">Select Column</option>
+            <option value="category">Category</option>
+            <option value="candidateName">Candidate Name</option>
+            <option value="age">Age</option>
+            <option value="gender">Gender</option>
+            <option value="contactPhoneNo">Phone Number</option>
+            <option value="contactEmailId">Email</option>
+            <option value="address">Address</option>
+            <option value="city">City</option>
+            <option value="district">District</option>
+            <option value="state">State</option>
+            <option value="qualification">Qualification</option>
+            <option value="experience">Experience</option>
+            <option value="currentSalary">Current Salary</option>
+            <option value="expectingSalary">Expecting Salary</option>
+            <option value="status">Status</option>
+          </select>
         </div>
-      )}
+        <div className="col-md-5">
+          <input
+            type="text"
+            className="form-control"
+            value={filter.value}
+            onChange={(e) => handleFilterChange(index, 'value', e.target.value)}
+            placeholder="Value"
+          />
+        </div>
+        <div className="col-md-2">
+          <button className="btn btn-danger w-100" onClick={() => handleRemoveFilter(index)}>
+            Remove
+          </button>
+        </div>
+      </div>
+    ))}
+    <div className="d-flex justify-content-between">
+      <button className="btn btn-primary" onClick={handleAddFilter}>
+        Add Filter
+      </button>
+      <button className="btn btn-success" onClick={handleApplyFilters}>
+        Apply Filters
+      </button>
     </div>
+  </div>
+
+  {/* Loading, Error, or Candidates Display */}
+  {loading ? (
+    <div className="text-center my-3">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  ) : error ? (
+    <div className="alert alert-danger" role="alert">
+      Error fetching data: {error.message}
+    </div>
+  ) : (
+    
+    <div className="row">
+    {candidates.length > 0 ? (
+      candidates.map(candidate => (
+        <div key={candidate.sNo} className="col-md-4 mb-4">
+          <div className="card h-100 p-3">
+            <div className="card-body">
+              {/* Candidate Name */}
+              <h5 className="card-title fw-bold d-flex align-items-center">
+                <FaUser className="me-2" />
+                {candidate.candidateName}
+              </h5>
+  
+              {/* Category and Age */}
+              <p className="mb-1">
+                
+                <strong>Category:</strong> {candidate.category}
+              </p>
+              <p className="mb-1">
+              <FaBirthdayCake className="me-2" />
+                <strong>Age:</strong> {candidate.age}
+              </p>
+              <p className="mb-3">
+              <FaVenusMars className="me-2" />
+                <strong>Gender:</strong> {candidate.gender}
+              </p>
+  
+              {/* Contact Information */}
+              <h6 className="fw-bold mt-2">Contact Information</h6>
+              <p className="mb-1 d-flex align-items-center">
+                <FaPhoneAlt className="me-2" />
+                <a href={`tel:${candidate.contactPhoneNo}`} className="text-decoration-none">
+                  {candidate.contactPhoneNo}
+                </a>
+              </p>
+              <p className="mb-3 d-flex align-items-center">
+                <FaEnvelope className="me-2" />
+                <a href={`mailto:${candidate.contactEmailId}`} className="text-decoration-none">
+                  {candidate.contactEmailId}
+                </a>
+              </p>
+  
+              {/* Address */}
+              {/* <h6 className="fw-bold mt-2">Address</h6> */}
+             
+              <p className="mb-1 d-flex align-item-center">
+              <IoLocation/> 
+                {candidate.address}, {candidate.city}, {candidate.district}, {candidate.state}
+              </p>
+  
+              {/* Qualification and Experience */}
+              <h6 className="fw-bold mt-2">Professional Details</h6>
+              <p className="mb-1">
+                <strong>Qualification:</strong> {candidate.qualification}
+              </p>
+              <p className="mb-1">
+                <strong>Experience:</strong> {candidate.experience} years
+              </p>
+  
+              {/* Salary */}
+              <h6 className="fw-bold mt-2">Salary Details</h6>
+              <p className="mb-1">
+                <strong>Current Salary:</strong> {candidate.currentSalary}
+              </p>
+              <p className="mb-3">
+                <strong>Expecting Salary:</strong> {candidate.expectingSalary}
+              </p>
+  
+              {/* Status */}
+              <h6 className="fw-bold mt-2">Status</h6>
+              <p className="mb-0">
+                <span className="badge bg-info">{candidate.status}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <div className="col-12">
+        <p className="text-center">No candidates available</p>
+      </div>
+    )}
+  </div>
+  
+  )}
+</div>
+
   );
 }
 

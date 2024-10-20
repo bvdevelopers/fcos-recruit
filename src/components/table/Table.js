@@ -3,15 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEdit } from 'react-icons/fa'; // Assuming you use react-icons for icons
 import Modal from './Modal'; // Corrected the import
-// import './table.css';
 import { saveAs } from 'file-saver';
 import 'bootstrap';
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
-
-
-
-
 function Table() {
   const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
@@ -155,175 +148,162 @@ function Table() {
 
 
   return (
+<div>
+  <div className="d-flex justify-content-end">
+    <div className="btn-group" role="group" aria-label="Basic mixed styles example">
+      <button className="btn btn-primary" onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
+      <button
+        className="btn btn-danger"
+        disabled={selectedCandidates.length === 0}
+        data-bs-toggle="modal"
+        data-bs-target="#deleteConfirmationModal"
+      >
+        Delete
+      </button>
+      <button className="btn btn-secondary" onClick={handlePrintCandidates} disabled={selectedCandidates.length === 0}>Print</button>
+    </div>
+  </div>
 
-    <div>
-      <div class="d-flex justify-content-end">
+  {/* Delete confirmation modal */}
+  <div className="modal fade" id="deleteConfirmationModal" tabIndex="-1" aria-labelledby="deleteConfirmationLabel" aria-hidden="true">
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="deleteConfirmationLabel">Confirm Deletion</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div className="modal-body">
+          Are you sure you want to delete the selected candidates?
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" className="btn btn-danger" id="confirmDeleteBtn" onClick={handleDeleteSelected}>Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-          <button class="btn btn-primary" onClick={() => setIsFilterPopupOpen(true)}>Filter</button>
-          <button
-            className="btn btn-danger"
-            disabled={selectedCandidates.length === 0}
-            data-bs-toggle="modal"
-            data-bs-target="#deleteConfirmationModal"
+  <Modal isOpen={isFilterPopupOpen} onClose={() => setIsFilterPopupOpen(false)}>
+    <div className="filter-popup-content">
+      {filters.map((filter, index) => (
+        <div key={index}>
+          <select
+            value={filter.column}
+            onChange={(e) => handleFilterChange(index, 'column', e.target.value)}
           >
-            Delete
-          </button>
-          <button class="btn btn-secondary" onClick={handlePrintCandidates} disabled={selectedCandidates.length === 0}>Print</button>
+            <option value="">Select Column</option>
+            {availableColumns.map(column => (
+              <option key={column} value={column}>{column}</option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={filter.value}
+            onChange={(e) => handleFilterChange(index, 'value', e.target.value)}
+            placeholder="Value"
+          />
+          <button onClick={() => handleRemoveFilter(index)}>Remove</button>
+        </div>
+      ))}
+      <button onClick={handleAddFilter}>Add Filter</button>
+      <button onClick={handleApplyFilters}>Apply Filters</button>
+    </div>
+  </Modal>
 
-        </div>
-      </div>
-      {/* -----dlete conform modal */}
-      <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteConfirmationLabel">Confirm Deletion</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              Are you sure you want to delete the selected candidates?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-danger" id="confirmDeleteBtn" onClick={handleDeleteSelected}>Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* ---------------------------------------------------------- */}
-
-      <Modal isOpen={isFilterPopupOpen} onClose={() => setIsFilterPopupOpen(false)}>
-        <div className="filter-popup-content">
-          {filters.map((filter, index) => (
-            <div key={index}>
-              <select
-                value={filter.column}
-                onChange={(e) => handleFilterChange(index, 'column', e.target.value)}
-              >
-                <option value="">Select Column</option>
-                {availableColumns.map(column => (
-                  <option key={column} value={column}>{column}</option>
-                ))}
-              </select>
-              <input
-                type="text"
-                value={filter.value}
-                onChange={(e) => handleFilterChange(index, 'value', e.target.value)}
-                placeholder="Value"
-              />
-              <button onClick={() => handleRemoveFilter(index)}>Remove</button>
-            </div>
-          ))}
-          <button onClick={handleAddFilter}>Add Filter</button>
-          <button onClick={handleApplyFilters}>Apply Filters</button>
-        </div>
-      </Modal>
-      <div class="table-responsive">
-        <table class='table' style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              <th>
+  {/* Responsive Table */}
+  <div className="table-responsive">
+    
+    <table className="table  table-hover table-sm table-striped" style={{ width: '100%' }}>
+      <thead className="table-light">
+        <tr>
+          <th>
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedCandidates(filteredCandidates.map(candidate => candidate.sNo));
+                } else {
+                  setSelectedCandidates([]);
+                }
+              }}
+              checked={selectedCandidates.length === filteredCandidates.length}
+            />
+          </th>
+          <th>S.No</th>
+          <th>Category</th>
+          <th>Candidate Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+          <th>District</th>
+          <th>State</th>
+          <th>Qualification</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {currentRows.length > 0 ? (
+          currentRows.map((candidate, index) => (
+            <tr key={candidate.sNo}>
+              <td>
                 <input
                   type="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedCandidates(filteredCandidates.map(candidate => candidate.sNo));
-                    } else {
-                      setSelectedCandidates([]);
-                    }
-                  }}
-                  checked={selectedCandidates.length === filteredCandidates.length}
+                  checked={selectedCandidates.includes(candidate.sNo)}
+                  onChange={() => handleSelectCandidate(candidate.sNo)}
                 />
-              </th>
-              <th>S.No</th>
-              <th>Category</th>
-              <th>Candidate Name</th>
-              {/* <th>Date of Birth</th> */}
-              <th>Age</th>
-              <th>Gender</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              {/* <th>Address</th> */}
-              {/* <th>City</th> */}
-              <th>District</th>
-              <th>State</th>
-              {/* <th>Aadhar Number</th> */}
-              <th>Qualification</th>
-              {/* <th>Current Company</th> */}
-              {/* <th>Experience</th> */}
-              {/* <th>Expecting Job</th> */}
-              {/* <th>Current Salary</th> */}
-              {/* <th>Expecting Salary</th> */}
-              <th>Status</th>
-              <th>Action</th>
+              </td>
+              <td>{indexOfFirstRow + index + 1}</td>
+              <td>{candidate.category}</td>
+              <td>{candidate.candidateName}</td>
+              <td>{candidate.age}</td>
+              <td>{candidate.gender}</td>
+              <td>{candidate.contactPhoneNo}</td>
+              <td>{candidate.contactEmailId}</td>
+              <td>{candidate.district}</td>
+              <td>{candidate.state}</td>
+              <td>{candidate.qualification}</td>
+              <td>{candidate.status}</td>
+              <td>
+                <FaEye onClick={() => handleViewCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} className="me-2" />
+                <FaEdit onClick={() => handleEditCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} />
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {currentRows.length > 0 ? (
-              currentRows.map((candidate, index) => (
-                <tr key={candidate.sNo}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedCandidates.includes(candidate.sNo)}
-                      onChange={() => handleSelectCandidate(candidate.sNo)}
-                    />
-                  </td>
-                  <td>{indexOfFirstRow + index + 1}</td>
-                  <td>{candidate.category}</td>
-                  <td>{candidate.candidateName}</td>
-                  {/* <td>{candidate.dob}</td> */}
-                  <td>{candidate.age}</td>
-                  <td>{candidate.gender}</td>
-                  <td>{candidate.contactPhoneNo}</td>
-                  <td>{candidate.contactEmailId}</td>
-                  {/* <td>{candidate.address}</td> */}
-                  {/* <td>{candidate.city}</td> */}
-                  <td>{candidate.district}</td>
-                  <td>{candidate.state}</td>
-                  {/* <td>{candidate.aadharNumber}</td> */}
-                  <td>{candidate.qualification}</td>
-                  {/* <td>{candidate.currentCompanyName}</td> */}
-                  {/* <td>{candidate.experience}</td> */}
-                  {/* <td>{candidate.expectingJob}</td> */}
-                  {/* <td>{candidate.currentSalary}</td> */}
-                  {/* <td>{candidate.expectingSalary}</td> */}
-                  <td>{candidate.status}</td>
-                  <td>
-                    <FaEye onClick={() => handleViewCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} className="me-2" />
-                    <FaEdit onClick={() => handleEditCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} />
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="31">No candidates available</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item"><button class="page-link" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button></li>
-          <li class="page-item"><button class="page-link">Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</button></li>
-          <li class="page-item"><button class="page-link" onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</button></li>
-        </ul>
-        <select onChange={rowsPerPageChange} class="form-select" aria-label="Default select example">
-  <option selected value="10" >10</option>
-  <option value="20">20</option>
-  <option value="30">30</option>
-</select>
-      </nav>
-      
-      {/* <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
-        <span>Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</span>
-        <button onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</button>
-      </div> */}
+          ))
+        ) : (
+          <tr>
+            <td colSpan="31">No candidates available</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
 
-    </div>
+  {/* Pagination */}
+  <nav aria-label="Page navigation example">
+    <ul className="pagination">
+      <li className="page-item">
+        <button className="page-link" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
+      </li>
+      <li className="page-item">
+        <button className="page-link">Page {currentPage} / {Math.ceil(filteredCandidates.length / rowsPerPage)}</button>
+      </li>
+      <li className="page-item">
+        <button className="page-link" onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCandidates.length / rowsPerPage)}>Next</button>
+      </li>
+      <li className='page-item'>
+      <select onChange={rowsPerPageChange} placeholder="page size" className="form-select" aria-label="Rows per page">
+      <option value="10" defaultValue>Page size - 10</option>
+      <option value="20">Page size - 20</option>
+      <option value="30">Page size - 30</option>
+    </select>
+      </li>
+    </ul>
+   
+  </nav>
+</div>
+
   );
 }
 

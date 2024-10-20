@@ -2,3 +2,18 @@
 {
     background-color: #6c757d;
 }
+.nav
+{
+    background-color: blueviolet;
+}
+.menus
+{
+text-decoration:underline;
+
+}
+.toggle
+{
+    color: white;
+    border-inline-color: white;
+    background-color: antiquewhite;
+}
