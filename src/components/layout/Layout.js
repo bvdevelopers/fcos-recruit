@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
 import logo from '../../img/logo.ico';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import {FaSignOutAlt } from 'react-icons/fa'
 
 
@@ -22,7 +22,7 @@ function Layout() {
     <div className="main">
      <Navbar className='nav' expand="lg">
       <Container>
-        <Navbar.Brand href="https://www.fcos.in/"><img src={logo} height={50} width={80}/></Navbar.Brand>
+        <Navbar.Brand href="https://www.fcos.in/"><img src={logo} height={50} width={80} alt='logo'/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='toggle'/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
