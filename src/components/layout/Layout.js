@@ -1,6 +1,5 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet,useNavigate, Link } from 'react-router-dom';
 import logo from '../../img/logo.ico';
-// import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Navbar, Nav, Container } from 'react-bootstrap';
@@ -9,13 +8,15 @@ import {FaSignOutAlt } from 'react-icons/fa'
 
 
 function Layout() {
+  const navigate=useNavigate();
   const logout=()=>
   {
     if(window.confirm("Are you sure, you want to logout"))
     {
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("authToken");
-    window.location.href = "/login";
+    navigate("/login");
+    // window.location.href = "/login";
     }
   }
   return (
@@ -26,11 +27,11 @@ function Layout() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='toggle'/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link className='menus' href="/home">Home</Nav.Link>
-            <Nav.Link href="/form" className='menus'>Form</Nav.Link>
-            <Nav.Link href="/table" className='menus'>Table</Nav.Link>
-            <Nav.Link href="/tenderform" className='menus'>Tender Form</Nav.Link>
-            <Nav.Link href="/filteredCandidates" className='menus'>Filter View</Nav.Link>
+            <Nav.Link className='menus'as={Link} to="/home">Home</Nav.Link>
+            <Nav.Link as={Link} to="/form" className='menus'>Form</Nav.Link>
+            <Nav.Link as={Link} to="/table" className='menus'>Table</Nav.Link>
+            <Nav.Link as={Link} to="/tenderform" className='menus'>Tender Form</Nav.Link>
+            <Nav.Link as={Link} to="/filteredCandidates" className='menus'>Filter View</Nav.Link>
           </Nav>
            {/* Add logout icon here */}
       <Nav className="ms-auto">
