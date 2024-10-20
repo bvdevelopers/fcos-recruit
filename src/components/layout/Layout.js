@@ -5,6 +5,9 @@ import { Outlet } from 'react-router-dom';
 // import { newtab, rmtab } from '../../redux/tabSlice';
 // import { useSelector, useDispatch } from 'react-redux';
 import logo from '../../img/logo.ico';
+import { Link } from 'react-router-dom';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 function Layout() {
   // const dispatch = useDispatch();
@@ -92,41 +95,40 @@ function Layout() {
               </div>
             ))}
           </div> */}
-   <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand"  target="_blank" rel="noopener noreferrer" href="https://www.fcos.in/">
-      <img src={logo} alt="Bootstrap" width="72" height="36"/>
-    </a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <img src={logo} alt="Bootstrap" width="30" height="24"/>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/home">Home</a>
+      <li className="nav-item">
+          <Link to="/home" className="nav-link">Home</Link>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/form">Form</a>
+        <li className="nav-item">
+          <Link to="/form" className="nav-link">Form</Link>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/table">Table</a>
+        <li className="nav-item">
+          <Link to="/table" className="nav-link">Table</Link>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/tenderform">TenderForm</a>
+        <li className="nav-item">
+          <Link to="/tenderform" className="nav-link">Tender Form</Link>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/filteredCandidates">FilterView</a>
-        </li>
+        <li className="nav-item">
+          <Link to="/filteredCandidates" className="nav-link">Filter View</Link>
+        </li>     
       </ul>
-     
     </div>
   </div>
 </nav>
 
 
+
         {/* </div> */}
         <div className="body"><Outlet /></div>
-      </div>
+      </div>  
     </div>
   );
 }
