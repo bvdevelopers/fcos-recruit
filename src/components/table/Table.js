@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaEye, FaEdit } from 'react-icons/fa'; // Assuming you use react-icons for icons
+import { FaVenusMars,FaUser,FaEye, FaEdit, FaBirthdayCake } from 'react-icons/fa'; // Assuming you use react-icons for icons
 import Modal from './Modal'; // Corrected the import
 import { saveAs } from 'file-saver';
 import 'bootstrap';
+import {  FaPhoneAlt, FaEnvelope  } from 'react-icons/fa';
+import { IoLocation } from "react-icons/io5";
+import './table.css'
 function Table() {
   const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
@@ -211,7 +214,7 @@ function Table() {
   </Modal>
 
   {/* Responsive Table */}
-  <div className="table-responsive">
+  <div className="table-responsive" style={{borderRadius: '12px' }}>
     
     <table className="table  table-hover table-sm table-striped" style={{ width: '100%' }}>
       <thead className="table-light">
@@ -231,11 +234,11 @@ function Table() {
           </th>
           <th>S.No</th>
           <th>Category</th>
-          <th>Candidate Name</th>
+          <th>Name</th>
           <th>Age</th>
           <th>Gender</th>
-          <th>Phone Number</th>
-          <th>Email</th>
+          <th><FaPhoneAlt className="me-2" /></th>
+          <th><FaEnvelope className="me-2" /></th>
           <th>District</th>
           <th>State</th>
           <th>Qualification</th>
@@ -259,8 +262,10 @@ function Table() {
               <td>{candidate.candidateName}</td>
               <td>{candidate.age}</td>
               <td>{candidate.gender}</td>
-              <td>{candidate.contactPhoneNo}</td>
-              <td>{candidate.contactEmailId}</td>
+              <td><a href={`tel:${candidate.contactPhoneNo}`}  style={{'text-decoration':'none'}}>{candidate.contactPhoneNo}</a></td>
+              <td><a href={`mailto:${candidate.contactEmailId}`}  className="text-decoration-none">
+                  {candidate.contactEmailId}
+                </a></td>
               <td>{candidate.district}</td>
               <td>{candidate.state}</td>
               <td>{candidate.qualification}</td>

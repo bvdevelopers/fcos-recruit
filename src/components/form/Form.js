@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // import './form.css';
-// import "./new.css";
+import "./new.css";
 import { updateForm } from '../../redux/formSlice';
 import axios from 'axios';
 import Notification from '../notification/Notification';
@@ -11,14 +11,20 @@ function Form() {
   // const { id } = useParams();
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.form || {});
+  // const [taluks, setTaluks] = useState([]); // Holds the list of cities/taluks
+
+  // const [formData,setFormData] = useState()
   // const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: '' });
+  const [imagePreview, setImagePreview] = useState(null);
+  const [documentPreview, setDocumentPreview] = useState(null);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     // Ensure the Aadhar number is exactly 12 digits
-    if (name === 'aadharNumber' && value.length > 12) {
+    if (name === 'aadharNumber' && value.length > 12 ) {
       return;
     }
 
@@ -43,7 +49,7 @@ function Form() {
           'Content-Type': 'application/json',
         },
       })
-        .then(response => {
+        .then(response => { 
           // The response data is already parsed as JSON by axios
           const data = response.data;
 
@@ -53,6 +59,7 @@ function Form() {
           if (data.city && data.state && data.district) {
             // Update form data with city, state, district
             // setFormData(prev => ({ ...prev, city: data.city, state: data.state, district: data.district }));
+            dispatch(updateForm({city:data.city,state:data.state,district:data.district}));
           } else {
             console.error('Pincode not found or invalid response');
           }
@@ -90,6 +97,27 @@ function Form() {
     }
 
     return Math.round(age);
+  };
+
+
+  // Image preview handler
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreview(reader.result);
+      reader.readAsDataURL(file);
+    }
+    dispatch(updateForm({ image: file }));
+  };
+
+  // Document preview handler
+  const handleDocumentChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setDocumentPreview(file.name); // Display document name
+    }
+    dispatch(updateForm({ document: file }));
   };
 
 
@@ -156,6 +184,18 @@ function Form() {
                   <label className="form-label">Category: *</label>
                   <select className="form-select" name="category" onChange={handleChange} value={formData.category || ''} required>
                     <option value="">-select-</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Security guard">Security guard</option>
+                    <option value="Unskilled">Unskilled</option>
+                    <option value="Skilled">Skilled</option>
+                    <option value="Semiskilled">Semiskilled</option>
+                    <option value="ex-service">Ex-Service</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Operator">Operator</option>
+                    <option value="Housekeeper">Housekeeper</option>
+                    <option value="Scavenger">Scavenger</option>
+                    <option value="Lady guard">Lady guard</option>
                     {/* Category options */}
                   </select>
                 </div>
@@ -200,6 +240,12 @@ function Form() {
                   <label className="form-label">Marital Status:</label>
                   <select className="form-select" name="maritalstatus" onChange={handleChange} value={formData.maritalstatus || ''}>
                     <option value="">-select-</option>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widowed">Widowed</option>
+                    <option value="divorced">Divorced</option>
+                    <option value="separated">Separated</option>
+                    <option value="registered partnership">Registered Partnership</option>
                     {/* Marital status options */}
                   </select>
                 </div>
@@ -223,6 +269,12 @@ function Form() {
                   <label className="form-label">Shirt Size:</label>
                   <select className="form-select" name="shirtsize" onChange={handleChange} value={formData.shirtsize || ''}>
                     <option value="">-select-</option>
+                    <option value="36">36</option>
+                    <option value="38">38</option>
+                    <option value="40">40</option>
+                    <option value="42">42</option>
+                    <option value="44">44</option>
+                    <option value="46">46</option>
                     {/* Shirt size options */}
                   </select>
                 </div>
@@ -230,6 +282,12 @@ function Form() {
                   <label className="form-label">Pant Size:</label>
                   <select className="form-select" name="pantsize" onChange={handleChange} value={formData.pantsize || ''}>
                     <option value="">-select-</option>
+                    <option value="36">32</option>
+                    <option value="34">34</option>
+                    <option value="36">36</option>
+                    <option value="38">38</option>
+                    <option value="40">40</option>
+                    <option value="42">42</option>
                     {/* Pant size options */}
                   </select>
                 </div>
@@ -237,6 +295,10 @@ function Form() {
                   <label className="form-label">Shoe Size:</label>
                   <select className="form-select" name="shoesize" onChange={handleChange} value={formData.shoesize || ''}>
                     <option value="">-select-</option>
+                    <option value="36">8</option>
+                    <option value="38">9</option>
+                    <option value="40">10</option>
+                    <option value="42">12</option>
                     {/* Shoe size options */}
                   </select>
                 </div>
@@ -276,11 +338,14 @@ function Form() {
                   <input type="text" className="form-control" name="address" onChange={handleChange} value={formData.address || ''} />
                 </div>
                 <div className="col-md-3">
-                  <label className="form-label">City:</label>
+                  {/* <label className="form-label">City:</label>
                   <select className="form-select" name="city" onChange={handleChange} value={formData.city || ''}>
                     <option value="">-select-</option>
+                    {taluks.map((taluk, index) => (
+            <option key={index} value={taluk}>{taluk}</option>
+          ))} */}
                     {/* City options */}
-                  </select>
+                  {/* </select> */}
                 </div>
                 <div className="col-md-3">
                   <label className="form-label">District: *</label>
@@ -317,6 +382,23 @@ function Form() {
                   <label className="form-label">Job Expectation:</label>
                   <input type="text" className="form-control" name="expectingJob" onChange={handleChange} value={formData.expectingJob || ''} />
                 </div>
+               
+                <div className="col-md-6">
+                  <label className="form-label">Experience:</label>
+                  <select className="form-select" name="experience" onChange={handleChange} value={formData.experience || ''} >
+                  <option value="">-select-</option>
+                    <option value="0-1">0-1</option>
+                    <option value="1-2">1-2</option>
+                    <option value="2-3">2-3</option>
+                    <option value="3-4">3-4</option>
+                    <option value="4-5">4-5</option>
+                    <option value="5-6">5-6</option>
+                    <option value="6-7">6-7</option>
+                    <option value="7-8">7-8</option>
+                    <option value="8-9">8-9</option>
+                    <option value="9-10">9-10</option>
+                    </select>
+                </div>
                 <div className="col-md-6">
                   <label className="form-label">Expected Salary:</label>
                   <input type="number" className="form-control" name="expectingSalary" onChange={handleChange} value={formData.expectingSalary || ''} />
@@ -348,6 +430,24 @@ function Form() {
               </div>
             </div>
           </div>
+
+          {/* Image Upload Section */}
+          <div className="mb-4">
+          <label className="form-label">Upload Image:</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+          {imagePreview && (
+            <div className="preview">
+              <img src={imagePreview} alt="Image Preview" width="100" height="100" />
+            </div>
+          )}
+        </div>
+
+        {/* Document Upload Section */}
+        <div className="mb-4">
+          <label className="form-label">Upload Document:</label>
+          <input type="file" accept=".pdf,.doc,.docx" onChange={handleDocumentChange} />
+          {documentPreview && <p>Document: {documentPreview}</p>}
+        </div>
 
           <div className="text-center">
             <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Submit</button>

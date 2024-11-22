@@ -10,7 +10,7 @@ function ViewForm() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`https://fcosrecruit.rf.gd/api/getById.php?id=${id}`)
+    axios.get(`https://fcos-api.onrender.com/getById.php?id=${id}`)
       .then(response => {
         setFormData(response.data);
         setLoading(false);
