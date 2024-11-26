@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaVenusMars,FaUser,FaEye, FaEdit, FaBirthdayCake } from 'react-icons/fa'; // Assuming you use react-icons for icons
+import { FaEye, FaEdit } from 'react-icons/fa'; // Assuming you use react-icons for icons
 import Modal from './Modal'; // Corrected the import
 import { saveAs } from 'file-saver';
 import 'bootstrap';
@@ -217,7 +217,7 @@ function Table() {
   <div className="table-responsive" style={{borderRadius: '12px' }}>
     
     <table className="table  table-hover table-sm table-striped" style={{ width: '100%' }}>
-      <thead className="table-light">
+      <thead class="thead-dark">
         <tr>
           <th>
             <input
@@ -269,7 +269,11 @@ function Table() {
               <td>{candidate.district}</td>
               <td>{candidate.state}</td>
               <td>{candidate.qualification}</td>
-              <td>{candidate.status}</td>
+              <td>
+  {candidate.status === "waiting" && <span class="badge badge-warning">Waiting</span>}
+  {candidate.status === "placed" && <span class="badge badge-success">Placed</span>}
+  {candidate.status === "relieved" && <span class="badge badge-info">Relieved</span>}
+</td>
               <td>
                 <FaEye onClick={() => handleViewCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} className="me-2" />
                 <FaEdit onClick={() => handleEditCandidate(candidate.sNo)} style={{ cursor: 'pointer' }} />

@@ -3,7 +3,9 @@ table{
 }
 th{
 text-align: center;
+height: 30;
 }
 td{
+    
     text-align: center;
     }
