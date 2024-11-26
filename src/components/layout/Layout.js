@@ -71,9 +71,9 @@ function Layout() {
     <div className="main">
      <Navbar className='nav' expand="lg" style={{ borderRadius:'12px',margin:'10px', backgroundColor: '#3d3d3d', boxShadow:'0px 0px 10px 2px' }}>
       <Container>
-        <Navbar.Brand href="https://www.fcos.in/"><img src={logo} height={50} width={80} alt='logo'/></Navbar.Brand>
+        <Navbar.Brand href="https://www.fcos.in/"><imgage src={logo} height={50} width={80} alt='logo'/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='toggle'/>
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Collapse id="basic-navbar-nav"> 
           <Nav className="me-auto">
             <Nav.Link className='menus'as={Link} to="/home"><DashboardSquare01Icon/> Dashboard</Nav.Link>
             <Nav.Link as={Link} to="/form" className='menus'><TypeCursorIcon/>Form</Nav.Link>
