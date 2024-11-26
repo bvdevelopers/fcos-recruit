@@ -3,13 +3,8 @@ import logo from '../../img/logo.ico';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import {FaSignOutAlt } from 'react-icons/fa'
 import './Layout.css'
-import { RxDashboard } from "react-icons/rx";
-import { SiGoogleforms } from "react-icons/si";
-import { ImTable } from "react-icons/im";
-import { FaFileContract } from "react-icons/fa6";
-import { FaFilter } from "react-icons/fa";
+
 
 function Layout() {
   const navigate=useNavigate();

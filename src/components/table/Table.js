@@ -6,7 +6,6 @@ import Modal from './Modal'; // Corrected the import
 import { saveAs } from 'file-saver';
 import 'bootstrap';
 import {  FaPhoneAlt, FaEnvelope  } from 'react-icons/fa';
-import { IoLocation } from "react-icons/io5";
 import './table.css'
 function Table() {
   const [candidates, setCandidates] = useState([]);
