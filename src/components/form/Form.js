@@ -437,7 +437,7 @@ function Form() {
           <input type="file" accept="image/*" onChange={handleImageChange} />
           {imagePreview && (
             <div className="preview">
-              <img src={imagePreview} alt="Image Preview" width="100" height="100" />
+              <image src={imagePreview} alt="Image Preview" width="100" height="100" />
             </div>
           )}
         </div>
